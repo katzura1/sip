@@ -33,4 +33,20 @@ class M_app extends CI_Model {
       //echo $this->db->last_query();
       return $this->db->affected_rows();
   }
+
+  public function dd_bulan(){
+    $dd_bulan['1']  = 'Januari';
+    $dd_bulan['2']  = 'Febuari';
+    $dd_bulan['3']  = 'Maret';
+    $dd_bulan['4']  = 'April';
+    $dd_bulan['5']  = 'Mei';
+    $dd_bulan['6']  = 'Juni';
+    $dd_bulan['7']  = 'Juli';
+    $dd_bulan['8']  = 'Agustus';
+    $dd_bulan['9']  = 'September';
+    $dd_bulan['10'] = 'Oktober';
+    $dd_bulan['11'] = 'November';
+    $dd_bulan['12'] = 'Desember';
+    return $dd_bulan;
+  }
 }

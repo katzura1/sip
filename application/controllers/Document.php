@@ -7,6 +7,7 @@ class Document extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_box');
 		$this->load->model('m_document');
+		$this->load->model('m_jenis_berkas');
 	}
 
 	public function index(){
@@ -19,10 +20,20 @@ class Document extends CI_Controller {
 	}
 
 	public function view($id_box){
-		$data = $this->m_box->get_box($id_box)->row_array();
-		$data['title'] = 'View Documents';
-		$data['lokasi'] = 'Blok '.$data['blok'].', Rak '.$data['rak'].', Lantai '.$data['lantai'];
-		$data['level'] = $this->session->userdata('sip_level');
+		$data = $this->m_box->get_box($id_box);
+		if($data->num_rows()==0){
+			echo ("<script LANGUAGE='JavaScript'>
+				    window.alert('Box tidak ditemukan');
+				    window.location.href='".site_url('dashboard1')."';
+				    </script>");
+		}
+		$data = $data->row_array();
+		$data['title'] 		= 'View Documents';
+		$data['id_box'] 	= $id_box;
+		$data['lokasi'] 	= 'Blok '.$data['blok'].', Rak '.$data['rak'].', Lantai '.$data['lantai'];
+		$data['level'] 		= $this->session->userdata('sip_level');
+		$data['dd_jb'] 		= $this->m_jenis_berkas->dd_jenis_berkas();
+		$data['dd_bulan']	= $this->m_app->dd_bulan();
 		$this->load->view('doc/master',$data);
 	}
 
@@ -62,22 +73,18 @@ class Document extends CI_Controller {
 		$id = $this->input->post('id');
 
 		if($id=='' || $id==null){
-			$data = array(
-				'id_box' 	=> $this->input->post('id_box'),
-				'nama_file'	=> $this->input->post('nama_file'),
-			);
-			$insert = $this->m_app->insert_global('tb_doc',$data);
+			$data = $this->input->post();
+			unset($data['id']);
+			$insert = $this->m_app->insert_global('tb_berkas',$data);
 			if($insert>0){
 				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
 			}else{
 				echo json_encode(array('code'=>500,'message'=>'data save failed'));
 			}
 		}else{
-			$data = array(
-				'id_box'	=> $this->input->post('id_box'),
-				'nama_file' => $this->input->post('nama_file'),
-			);
-			$update = $this->m_app->update_global('tb_doc',array('id'=>$id),$data);
+			$data = $this->input->post();
+			unset($data['id']);
+			$update = $this->m_app->update_global('tb_berkas',array('id'=>$id),$data);
 			if($update>=0){
 				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
 			}else{
@@ -90,7 +97,7 @@ class Document extends CI_Controller {
 	public function delete_doc(){
 		$id = $this->input->post('id');
 		$data = array('deletedate'=>date('Y-m-d'));
-		$delete = $this->m_app->update_global('tb_doc',array('id'=>$id),$data);
+		$delete = $this->m_app->update_global('tb_berkas',array('id'=>$id),$data);
 		if($delete>0){
 			echo json_encode(array('code'=>200,'message'=>'data deleted successfully'));
 		}else{

@@ -51,8 +51,7 @@ class M_box extends CI_Model
 	public function get_box_like($param){
 		$this->db->select('id,kode,npwp,nama,alamat,blok,rak,lantai');
 		$this->db->from('tb_box');
-		$this->db->like('kode',$param);
-		$this->db->or_like('nama',$param);
+		$this->db->where('(kode like "%'.$param.'%" or nama like "%'.$param.'%")');
 		$this->db->where('deletedate IS NULL');
 		return $this->db->get();
 	}

@@ -26,11 +26,20 @@
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
-<style type="text/css">
-    .mr-2{
-        margin-right: 10px;
-    }
-    .mb-2{
-        margin-bottom: 10px;
-    }
-</style>
+        <style type="text/css">
+            .mr-2{
+                margin-right: 10px;
+            }
+            .mb-2{
+                margin-bottom: 10px;
+            }
+
+            .select2-container{
+                display: block;
+            }
+
+            .img-logo{
+                max-width: 80px;
+                height: auto;
+            }
+        </style>

@@ -31,7 +31,7 @@
                     <li><a href="<?=site_url('user')?>"><i class="fa fa-circle-o"></i> Users</a></li>
                     <li><a href="<?=site_url('box')?>"><i class="fa fa-circle-o"></i> Boxs</a></li>
                     <?php if($this->session->userdata('sip_level')=='2'):?>
-                    <li><a href="<?=site_url('document')?>"><i class="fa fa-circle-o"></i> Documents</a></li>
+                    <li><a href="<?=site_url('jenis_berkas')?>"><i class="fa fa-circle-o"></i> Documents Type</a></li>
                     <?php endif;?>
                 </ul>
             </li>

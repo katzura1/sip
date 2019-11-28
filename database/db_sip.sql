@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2019 at 02:12 PM
--- Server version: 10.3.15-MariaDB
--- PHP Version: 7.3.6
+-- Generation Time: Nov 28, 2019 at 05:14 PM
+-- Server version: 10.1.26-MariaDB
+-- PHP Version: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -40,6 +40,15 @@ CREATE TABLE `tb_berkas` (
   `deletedate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tb_berkas`
+--
+
+INSERT INTO `tb_berkas` (`id`, `id_box`, `id_jenis`, `masa_pajak`, `tahun_pajak`, `status_pembetulan`, `keterangan`, `status_pinjam`, `deletedate`) VALUES
+(1, 1, 1, 8, 2019, 0, 'Tes Keterangan', 0, NULL),
+(2, 1, 2, 10, 2014, 0, '0', 1, NULL),
+(3, 3, 2, 5, 2014, 0, 'Dokumen A', 1, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -49,7 +58,7 @@ CREATE TABLE `tb_berkas` (
 CREATE TABLE `tb_box` (
   `id` int(4) NOT NULL,
   `kode` varchar(10) NOT NULL,
-  `npwp` int(20) NOT NULL,
+  `npwp` varchar(20) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `alamat` text NOT NULL,
   `blok` varchar(4) NOT NULL,
@@ -63,8 +72,9 @@ CREATE TABLE `tb_box` (
 --
 
 INSERT INTO `tb_box` (`id`, `kode`, `npwp`, `nama`, `alamat`, `blok`, `rak`, `lantai`, `deletedate`) VALUES
-(1, 'B001', 2147483647, 'Box A', 'Alamat A', 'A', '1', '3', NULL),
-(2, 'B002', 2147483647, 'Asda', 'asdasd', 'A', '1', '2', NULL);
+(1, 'B001', '214748364722222', 'Box A', 'Alamat A', 'A', '1', '3', NULL),
+(2, 'B002', '2147483647', 'Asda', 'asdasd', 'A', '1', '2', NULL),
+(3, 'B003', '2147483647', 'Box Contoh', 'Alamat A', 'B', '23', '4', NULL);
 
 -- --------------------------------------------------------
 
@@ -78,6 +88,17 @@ CREATE TABLE `tb_jenis_berkas` (
   `nama` varchar(50) NOT NULL,
   `deletedate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_jenis_berkas`
+--
+
+INSERT INTO `tb_jenis_berkas` (`id`, `kode`, `nama`, `deletedate`) VALUES
+(1, 1, 'SPT Tahunan Pph 25/29', NULL),
+(2, 2, 'SPT Tahunan PPH 21', NULL),
+(3, 0, 'SPT Masa Pph 21', '2019-11-28'),
+(4, 3, 'SPT Masa Pph 21', NULL),
+(5, 4, 'SPT Masa Pph 22', NULL);
 
 -- --------------------------------------------------------
 
@@ -171,19 +192,19 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `tb_berkas`
 --
 ALTER TABLE `tb_berkas`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_box`
 --
 ALTER TABLE `tb_box`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_jenis_berkas`
 --
 ALTER TABLE `tb_jenis_berkas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_log`

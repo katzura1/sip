@@ -19,11 +19,22 @@
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
+        <style>
+        .img-responsive{
+            max-width: 120px;
+            height: auto;
+            margin : 0 auto;
+            padding: 0;
+        }
+        </style>
     </head>
     <body class="login-page">
         <div class="login-box">
             <div class="login-logo">
-                <a href="#"><b>SIP</b> <br> Sistem Informasi Pemberkasan</a>
+                <a href="#">
+                <img class="img-responsive" src="<?=base_url('files/img/logo_1.png')?>">
+                
+                Sistem Informasi Pemberkasan</a>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
                 <p class="login-box-msg">Sign in to start your session</p>

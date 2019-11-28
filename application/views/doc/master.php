@@ -29,7 +29,7 @@ $this->load->view('template/sidebar');
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">View Berkas</h3>
+            <h3 class="box-title">View Document</h3>
               <div class="pull-right">
                 <button class="btn btn-sm btn-primary" onclick="window.history.back()">
                     <i class="fa fa-arrow-left"> Kembali</i>
@@ -83,8 +83,8 @@ $this->load->view('template/sidebar');
         <div class="box-footer">
           <div class="row">
             <div class="col-sm-3">
-              <button class="btn btn-sm btn-secondary">
-                <i class="fa fa-plus"> Tambah Berkas</i>
+              <button id="btn_add_berkas" class="btn btn-sm btn-secondary">
+                <i class="fa fa-plus"> Add Document</i>
               </button>
             </div>
           </div>
@@ -99,38 +99,38 @@ $this->load->view('template/sidebar');
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">New Box</h4>
+        <h4 class="modal-title">New Document</h4>
       </div>
-      <form method="POST" id="form_box">
+      <form method="POST" id="form_update">
       <div class="modal-body">
         <input type="hidden" id="id" name="id">
+        <input type="hidden" id="id_box" name="id_box" value="<?=$id_box?>">
         <div class="form-group">
-          <label>Kode</label>
-          <input type="text" class="form-control" name="kode" id="kode" placeholder="Enter ..." />
+          <label>Jenis Berkas</label>
+          <?=form_dropdown('id_jenis',$dd_jb,'','class="form-control select2" id="id_jenis')?>
         </div>
         <div class="form-group">
-          <label>NPWP</label>
-          <input type="text" class="form-control" name="npwp" id="npwp" placeholder="Enter ..." required minlength="15" maxlength="15" />
+          <label>Masa Pajak</label>
+          <?=form_dropdown('masa_pajak',$dd_bulan,'','class="form-control" name="masa_pajak" id="masa_pajak"')?>
         </div>
         <div class="form-group">
-          <label>Nama</label>
-          <input type="text" class="form-control" name="nama" id="nama" placeholder="Enter ..." required/>
+          <label>Tahun Pajak</label>
+          <input type="number" class="form-control" name="tahun_pajak" id="tahun_pajak" placeholder="Enter ..." maxlength="4" required/>
         </div>
         <div class="form-group">
-          <label>Alamat</label>
-          <input type="text" class="form-control" name="alamat" id="alamat" placeholder="Enter ..." required/>
+          <label>Status Pembetulan</label>
+          <input type="text" class="form-control" name="status_pembetulan" id="status_pembetulan" placeholder="Enter ..." maxlength="8" required/>
         </div>
         <div class="form-group">
-          <label>Blok</label>
-          <input type="text" class="form-control" name="blok" id="blok" placeholder="Enter ..." required/>
+          <label>Keterangan</label>
+          <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Enter ..." required/>
         </div>
         <div class="form-group">
-          <label>Rak</label>
-          <input type="text" class="form-control" name="rak" id="rak" placeholder="Enter ..." required/>
-        </div>
-        <div class="form-group">
-          <label>Lantai</label>
-          <input type="text" class="form-control" name="lantai" id="lantai" placeholder="Enter ..." required/>
+          <label>Status Pinjam</label>
+          <select class="form-control" name="status_pinjam" id="status_pinjam">
+            <option value="1">Dipinjam</option>
+            <option value="0">Ada</option>
+          </select>
         </div>
         <div class="form-group">
            <button type="submit" class="btn btn-primary">Save changes</button>
@@ -138,34 +138,6 @@ $this->load->view('template/sidebar');
         </div>
       </div>
       </form>
-
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-<div class="modal modal-default fade" id="modal_view">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="modal_title_view">Box B001- Box Name</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table table-sm table-responsive-lg" id="tb_doc">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Nama File</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-          </tbody>
-        </table>
-      </div>
 
     </div>
     <!-- /.modal-content -->
@@ -195,212 +167,222 @@ $(document).ready(function(){
     })
   }
 
-    var tb = $('#tb_doc').DataTable({
-        ajax : {
-            url : "<?=site_url('document/ajax_dt_document')?>",
-            data : {},
-            type : 'POST',
-        },
-        order : [],
-        columns : [
-            {
-                data : 'id'
-            },
-            {
-                data : 'jenis_berkas'
-            },
-            {
-                data : 'masa_pajak'
-            },
-            {
-                data : 'tahun_pajak'
-            },
-            {
-                data : 'status_pembetulan'
-            },
-            {
-                data : 'keterangan'
-            },
-            {
-                data : 'status_pinjam'
-            },
-            {
-                data : 'id',
-                render : function(data, type, row){
-                  var level = "<?=$level?>";
-                  var btn1 = '<button class="btn btn-warning btn-sm text-white mr-2 mb-2 btn-edit" data-id="'+data+'"><i class="fa fa-edit"></i></button>';
-                  var btn2 = '<button class="btn btn-danger btn-sm text-white mr-2 mb-2 btn-delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>';
-                  var btn3 = '<button class="btn btn-success btn-sm text-white mr-2 mb-2 btn-view" data-id="'+data+'"><i class="fa fa-eye"></i></button>';  
-                  if(level==2){
-                    return btn1+btn2+btn3;
-                  }else{
-                    return btn3;
-                  } 
-                },
-            },
-        ],
-    });
+  $('#btn_add').on('click', function(){
+      $('.modal-title').html('Add Box');
+      $('#kode').removeAttr('required');
+      $('#kode').prop('readonly',true);
+      $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
+      $('#modal_add').modal();
+  })
 
-    tb.on( 'order.dt search.dt', function () {
-        tb.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
+  $('.btn-close').on('click', function(){
+      $('#form_update')[0].reset();
+  })
 
-    $('#btn_add').on('click', function(){
-        $('.modal-title').html('Add Box');
-        $('#kode').removeAttr('required');
-        $('#kode').prop('readonly',true);
-        $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
-        $('#modal_add').modal();
-    })
+  $('#btn_add_berkas').on('click', function(){
+    $('.select2').select2();
+    $('#modal_add').modal();
+  })
 
-    $('.btn-close').on('click', function(){
-        $('#form_box')[0].reset();
-    })
+  $(document).on('click', '.btn-delete' ,function(){
+      var id = $(this).data('id');
 
-    $(document).on('click', '.btn-delete' ,function(){
-        var id = $(this).data('id');
-
-        if(confirm('Are you sure ?')){
-            $.ajax({
-                url : "<?=site_url('box/delete_box')?>",
-                data : {id : id},
-                type : 'POST',
-                dataType : 'JSON',
-                beforeSend : function(){},
-                success : function(result){
-                    if(result.code=='200'){
-                      Swal.fire({
-                          icon: 'success',
-                          title: 'Great',
-                          text: 'Data saved successfully',
-                       })
-                    }else{
-                      Swal.fire({
-                          icon: 'warning',
-                          title: 'Error',
-                          text: result.message,
-                       })
-                    }
-                    tb.ajax.reload();
-                },
-                error : function(xhr, ajaxOptions, thrownError){
-                    Swal.fire({
-                      icon: 'warning',
-                      title: 'Error',
-                      text: xhr.status + ' ' +thrownError,
-                   })
-                }
-            })
-        }
-    })
-    
-    $(document).on('click','.btn-edit', function(){
-        var id = $(this).data('id');
-
-        $.ajax({
-            url : "<?=site_url('box/get_info')?>",
-            data : {id : id},
-            type : 'GET',
-            dataType : 'JSON',
-            beforeSend : function(){
-                $('.modal-title').html('Edit Box');
-                $('#kode').removeAttr('required');
-                $('#kode').prop('readonly',true);
-                $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
-            },
-            success: function(result){
-                console.log(result);
-                $.each(result, function(i,val){
-                    $('#'+i).val(val).change();
-                });
-                $('#modal_add').modal();
-            },
-            error : function(xhr, ajaxOptions, thrownError){
-              Swal.fire({
-                icon: 'warning',
-                title: 'Error',
-                text: xhr.status + ' ' +thrownError,
-              })  
-            }
-        })
-    })
-    
-    $(document).on('click','.btn-view', function(){
-        var id = $(this).data('id');
-        var row = tb.row($(this).parent().parent()).data();
-        $('#modal_title_view').html(row['kode']+'-'+row['nama']);
-        $.ajax({
-            url : "<?=site_url('box/get_document')?>",
-            data : {id : id},
-            type : 'GET',
-            beforeSend : function(){
-                $('#tb_doc tbody').html('');
-            },
-            success: function(result){
-               $('#tb_doc tbody').html(result);
-               insert_log('View Box '+row['kode']+'-'+row['nama']);
-               $('#modal_view').modal();
-            },
-            error : function(xhr, ajaxOptions, thrownError){
-              Swal.fire({
-                icon: 'warning',
-                title: 'Error',
-                text: xhr.status + ' ' +thrownError,
-              })  
-            }
-        })
-    })
-
-    $('#modal_add').on('hidden.bs.modal', function () {
-       $('input[name=id]').val('');
-       $('#form_box')[0].reset();
-    });
-
-    $('#form_box').on('submit', function(e){
-        e.preventDefault();
-
-        if(confirm('Are you sure ?')){
-            var formdata = new FormData($(this)[0]);
-            $.ajax({
-              url : "<?=site_url('box/submitForm')?>",
-              data: formdata,
-              processData: false,
-              contentType: false,
-              async: false,
-              cache: false,
-              enctype: 'multipart/form-data',
+      if(confirm('Are you sure ?')){
+          $.ajax({
+              url : "<?=site_url('document/delete_doc')?>",
+              data : {id : id},
               type : 'POST',
               dataType : 'JSON',
               beforeSend : function(){},
-              success : function (result) {
-                if(result.code=='200'){
-                  Swal.fire({
-                      icon: 'success',
-                      title: 'Great',
-                      text: 'Data saved successfully',
-                   })
-                }else{
-                  Swal.fire({
-                      icon: 'warning',
-                      title: 'Error',
-                      text: result.message,
-                   })
-                }
-                tb.ajax.reload();
-                $('#modal_add').modal('hide');
+              success : function(result){
+                  if(result.code=='200'){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Great',
+                        text: 'Data saved successfully',
+                     })
+                  }else{
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Error',
+                        text: result.message,
+                     })
+                  }
+                  tb.ajax.reload();
               },
-              error : function(xhr, ajaxOptions, thrownError) {
-                Swal.fire({
+              error : function(xhr, ajaxOptions, thrownError){
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: xhr.status + ' ' +thrownError,
+                 })
+              }
+          })
+      }
+  })
+  
+  $(document).on('click','.btn-edit', function(){
+      var id = $(this).data('id');
+
+      $.ajax({
+          url : "<?=site_url('document/get_info')?>",
+          data : {id : id},
+          type : 'GET',
+          dataType : 'JSON',
+          beforeSend : function(){
+              $('.modal-title').html('Edit Box');
+              $('#kode').removeAttr('required');
+              $('#kode').prop('readonly',true);
+              $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
+          },
+          success: function(result){
+              console.log(result);
+              $.each(result, function(i,val){
+                  $('#'+i).val(val).change();
+              });
+              $('#modal_add').modal();
+          },
+          error : function(xhr, ajaxOptions, thrownError){
+            Swal.fire({
+              icon: 'warning',
+              title: 'Error',
+              text: xhr.status + ' ' +thrownError,
+            })  
+          }
+      })
+  })
+  
+  $(document).on('click','.btn-view', function(){
+      var id = $(this).data('id');
+      var row = tb.row($(this).parent().parent()).data();
+      $('#modal_title_view').html(row['kode']+'-'+row['nama']);
+      $.ajax({
+          url : "<?=site_url('document/get_document')?>",
+          data : {id : id},
+          type : 'GET',
+          beforeSend : function(){
+              $('#tb_doc tbody').html('');
+          },
+          success: function(result){
+             $('#tb_doc tbody').html(result);
+             insert_log('View Box '+row['kode']+'-'+row['nama']);
+             $('#modal_view').modal();
+          },
+          error : function(xhr, ajaxOptions, thrownError){
+            Swal.fire({
+              icon: 'warning',
+              title: 'Error',
+              text: xhr.status + ' ' +thrownError,
+            })  
+          }
+      })
+  })
+
+  $('#modal_add').on('hidden.bs.modal', function () {
+     $('input[name=id]').val('');
+     $('#form_update')[0].reset();
+  });
+
+  $('#form_update').on('submit', function(e){
+    e.preventDefault();
+    if(confirm('Are you sure ?')){
+        var formdata = new FormData($(this)[0]);
+        $.ajax({
+          url : "<?=site_url('document/submitForm')?>",
+          data: formdata,
+          processData: false,
+          contentType: false,
+          async: false,
+          cache: false,
+          enctype: 'multipart/form-data',
+          type : 'POST',
+          dataType : 'JSON',
+          beforeSend : function(){},
+          success : function (result) {
+            if(result.code=='200'){
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Great',
+                  text: 'Data saved successfully',
+               })
+            }else{
+              Swal.fire({
                   icon: 'warning',
                   title: 'Error',
-                  text: xhr.status + ' ' +thrownError,
+                  text: result.message,
                })
-              }
-            })
+            }
+            tb.ajax.reload();
+            $('#modal_add').modal('hide');
+          },
+          error : function(xhr, ajaxOptions, thrownError) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Error',
+              text: xhr.status + ' ' +thrownError,
+           })
+          }
+        })
+    }
+  })
+
+  var bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  var tb = $('#tb_doc').DataTable({
+    ajax : {
+      url : "<?=site_url('document/ajax_dt_document')?>",
+      data : function(d){
+        d.kodebox = "<?=$id_box?>";
+      },
+      type : 'POST'
+    },
+    order : [[1,'asc']],
+    columns : [
+      {
+        data : 'id'
+      },
+      {
+        data : 'jenis_berkas'
+      },
+      {
+        data : 'masa_pajak',
+        render : function(data, type, row){
+          return bulan[data-1];
         }
-    })
+      },
+      {
+        data : 'tahun_pajak'
+      },
+      {
+        data : 'status_pembetulan'
+      },
+      {
+        data : 'keterangan'
+      },
+      {
+        data : 'status_pinjam',
+        render : function(data, type, row){
+          return data==0?'Ada':'Dipinjam';
+        }
+      },
+      {
+        data : 'id',
+        render : function(data, type, row){
+          var btn1 = '<button class="btn btn-warning btn-sm text-white mr-2 mb-2 btn-edit" data-id="'+data+'"><i class="fa fa-edit"></i></button>';
+          var btn2 = '<button class="btn btn-danger btn-sm text-white mr-2 mb-2 btn-delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>';
+          var btn3 = '<button class="btn btn-success btn-sm text-white mr-2 mb-2 btn-view" data-id="'+data+'"><i class="fa fa-eye"></i></button>';
+          var btn4 = '<button class="btn btn-info btn-sm text-white mr-2 mb-2 btn-download" data-id="'+data+'"><i class="fa fa-download"></i></button>';
+          return btn1+btn2;
+        }
+      },
+    ]
+  })
+
+  tb.on( 'order.dt search.dt', function () {
+    tb.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        cell.innerHTML = i+1;
+    } );
+  } ).draw();
 })
 </script>
 <?php

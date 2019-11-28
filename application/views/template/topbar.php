@@ -4,7 +4,7 @@
     <div class="wrapper">
 
         <header class="main-header">
-            <a href="#" class="logo"><b>SIP</b></a>
+            <a href="#" class="logo"><img class="img-logo" src="<?=base_url('files/img/logo.png')?>"></a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
