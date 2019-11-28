@@ -32,7 +32,12 @@ class Box extends CI_Controller {
 
 		$data_box = array(
 			'kode' 		=> $this->input->post('kode'),
+			'npwp' 		=> $this->input->post('npwp'),
 			'nama' 		=> $this->input->post('nama'),
+			'alamat' 	=> $this->input->post('alamat'),
+			'blok' 		=> $this->input->post('blok'),
+			'rak' 		=> $this->input->post('rak'),
+			'lantai' 	=> $this->input->post('lantai'),
 		);
 
 		if($id_box=='' || $id_box == null){
@@ -121,5 +126,16 @@ class Box extends CI_Controller {
 			$i++;
 		}
 		echo $tr;
+	}
+
+	public function search_box(){
+		$param = $this->input->post('param');
+
+		$data = $this->m_box->get_box_like($param);
+		if($data->num_rows()>0){
+			echo json_encode(array('code'=>'200','message'=>'Found','id_box'=>$data->row()->id));
+		}else{
+			echo json_encode(array('code'=>'404','message'=>'Not Found!','id_box'=>''));
+		}
 	}
 }

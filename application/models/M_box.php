@@ -8,14 +8,14 @@ class M_box extends CI_Model
 {
 	
 	public function get_all_box(){
-		$this->db->select('id,kode,nama');
+		$this->db->select('id,kode,npwp,nama,alamat,blok,rak,lantai');
 		$this->db->from('tb_box');
 		$this->db->where('deletedate IS NULL');
 		return $this->db->get();
 	}
 
 	public function get_box($id_box){
-		$this->db->select('id,kode,nama');
+		$this->db->select('id,kode,npwp,nama,alamat,blok,rak,lantai');
 		$this->db->from('tb_box');
 		$this->db->where('deletedate IS NULL');
 		$this->db->where('id',$id_box);
@@ -37,7 +37,7 @@ class M_box extends CI_Model
 	}
 
 	public function dd_box(){
-		$this->db->select('id, kode, nama');
+		$this->db->select('id,kode,npwp,nama,alamat,blok,rak,lantai');
 		$this->db->from('tb_box');
 		$this->db->where('deletedate IS NULL');
 		$data = $this->db->get();
@@ -46,6 +46,15 @@ class M_box extends CI_Model
 			$dd[$row->id] = $row->kode.'-'.$row->nama;
 		}
 		return $dd;
+	}
+
+	public function get_box_like($param){
+		$this->db->select('id,kode,npwp,nama,alamat,blok,rak,lantai');
+		$this->db->from('tb_box');
+		$this->db->like('kode',$param);
+		$this->db->or_like('nama',$param);
+		$this->db->where('deletedate IS NULL');
+		return $this->db->get();
 	}
 }
 ?>

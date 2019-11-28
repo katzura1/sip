@@ -29,37 +29,65 @@ $this->load->view('template/sidebar');
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Database Box</h3>
+            <h3 class="box-title">View Berkas</h3>
+              <div class="pull-right">
+                <button class="btn btn-sm btn-primary" onclick="window.history.back()">
+                    <i class="fa fa-arrow-left"> Kembali</i>
+                </button>
+              </div>
         </div>
         <div class="box-body">
             <div class="row">
-                <div class="col-sm-12">
-                  <?php if($level>1) : ?>
-                    <button id="btn_add" class="btn btn-sm btn-primary">
-                        <i class="fa fa-plus"> Add New Box</i>
-                    </button>
-                  <?php endif;?>
-                    <table class="table table-sm" id="tb_box">
-                        <thead>
-                            <tr>
-                                <th style="width: 5%">No</th>
-                                <th>Kode</th>
-                                <th>Npwp</th>
-                                <th>Nama</th>
-                                <th>Alamat</th>
-                                <th>Blok</th>
-                                <th>Rak</th>
-                                <th>Lantai</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <table class="table">
+                      <tr>
+                        <td style="width: 10%">Kode Box </td><td style="width: 3%">:</td><td> <?=$kode?></td>
+                      </tr>
+                      <tr>
+                        <td style="width: 10%">NPWP </td><td style="width: 3%">:</td><td> <?=$npwp?></td>
+                      </tr>
+                      <tr>
+                        <td style="width: 10%">Nama </td><td style="width: 3%">:</td><td> <?=$nama?></td>
+                      </tr>
+                      <tr>
+                        <td style="width: 10%">Alamat </td><td style="width: 3%">:</td><td> <?=$alamat?></td>
+                      </tr>
+                      <tr>
+                        <td style="width: 10%">Lokasi Berkas </td><td style="width: 3%">:</td><td> <?=$lokasi?></td>
+                      </tr>
                     </table>
+                  </div>
                 </div>
+              </div>
+              <div class="col-sm-12">
+                <table class="table table-sm" id="tb_doc">
+                  <thead>
+                    <tr>
+                        <th style="width: 5%">No</th>
+                        <th>Jenis Berkas</th>
+                        <th>Masa Pajak</th>
+                        <th>Tahun Pajak</th>
+                        <th>Status Pembetulan</th>
+                        <th>Keterangan</th>
+                        <th>Status Pinjam</th>
+                        <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
             </div>
         </div><!-- /.box-body -->
         <div class="box-footer">
-
+          <div class="row">
+            <div class="col-sm-3">
+              <button class="btn btn-sm btn-secondary">
+                <i class="fa fa-plus"> Tambah Berkas</i>
+              </button>
+            </div>
+          </div>
         </div><!-- /.box-footer-->
     </div><!-- /.box -->
 
@@ -167,9 +195,9 @@ $(document).ready(function(){
     })
   }
 
-    var tb = $('#tb_box').DataTable({
+    var tb = $('#tb_doc').DataTable({
         ajax : {
-            url : "<?=site_url('box/ajax_dt_box')?>",
+            url : "<?=site_url('document/ajax_dt_document')?>",
             data : {},
             type : 'POST',
         },
@@ -179,25 +207,22 @@ $(document).ready(function(){
                 data : 'id'
             },
             {
-                data : 'kode'
+                data : 'jenis_berkas'
             },
             {
-                data : 'npwp'
+                data : 'masa_pajak'
             },
             {
-                data : 'nama'
+                data : 'tahun_pajak'
             },
             {
-                data : 'alamat'
+                data : 'status_pembetulan'
             },
             {
-                data : 'blok'
+                data : 'keterangan'
             },
             {
-                data : 'rak'
-            },
-            {
-                data : 'lantai'
+                data : 'status_pinjam'
             },
             {
                 data : 'id',
@@ -205,7 +230,7 @@ $(document).ready(function(){
                   var level = "<?=$level?>";
                   var btn1 = '<button class="btn btn-warning btn-sm text-white mr-2 mb-2 btn-edit" data-id="'+data+'"><i class="fa fa-edit"></i></button>';
                   var btn2 = '<button class="btn btn-danger btn-sm text-white mr-2 mb-2 btn-delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>';
-                  var btn3 = '<a class="btn btn-success btn-sm text-white mr-2 mb-2 btn-view" href="<?=site_url('document/view/')?>'+data+'"><i class="fa fa-eye"></i></a>';  
+                  var btn3 = '<button class="btn btn-success btn-sm text-white mr-2 mb-2 btn-view" data-id="'+data+'"><i class="fa fa-eye"></i></button>';  
                   if(level==2){
                     return btn1+btn2+btn3;
                   }else{
@@ -302,31 +327,31 @@ $(document).ready(function(){
         })
     })
     
-    // $(document).on('click','.btn-view', function(){
-    //     var id = $(this).data('id');
-    //     var row = tb.row($(this).parent().parent()).data();
-    //     $('#modal_title_view').html(row['kode']+'-'+row['nama']);
-    //     $.ajax({
-    //         url : "<?=site_url('box/get_document')?>",
-    //         data : {id : id},
-    //         type : 'GET',
-    //         beforeSend : function(){
-    //             $('#tb_doc tbody').html('');
-    //         },
-    //         success: function(result){
-    //            $('#tb_doc tbody').html(result);
-    //            insert_log('View Box '+row['kode']+'-'+row['nama']);
-    //            $('#modal_view').modal();
-    //         },
-    //         error : function(xhr, ajaxOptions, thrownError){
-    //           Swal.fire({
-    //             icon: 'warning',
-    //             title: 'Error',
-    //             text: xhr.status + ' ' +thrownError,
-    //           })  
-    //         }
-    //     })
-    // })
+    $(document).on('click','.btn-view', function(){
+        var id = $(this).data('id');
+        var row = tb.row($(this).parent().parent()).data();
+        $('#modal_title_view').html(row['kode']+'-'+row['nama']);
+        $.ajax({
+            url : "<?=site_url('box/get_document')?>",
+            data : {id : id},
+            type : 'GET',
+            beforeSend : function(){
+                $('#tb_doc tbody').html('');
+            },
+            success: function(result){
+               $('#tb_doc tbody').html(result);
+               insert_log('View Box '+row['kode']+'-'+row['nama']);
+               $('#modal_view').modal();
+            },
+            error : function(xhr, ajaxOptions, thrownError){
+              Swal.fire({
+                icon: 'warning',
+                title: 'Error',
+                text: xhr.status + ' ' +thrownError,
+              })  
+            }
+        })
+    })
 
     $('#modal_add').on('hidden.bs.modal', function () {
        $('input[name=id]').val('');

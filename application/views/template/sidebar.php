@@ -18,7 +18,7 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
-                <a href="#">
+                <a href="<?=site_url('dashboard1')?>">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
                 </a>
             </li>
@@ -30,7 +30,7 @@
                 <ul class="treeview-menu">
                     <li><a href="<?=site_url('user')?>"><i class="fa fa-circle-o"></i> Users</a></li>
                     <li><a href="<?=site_url('box')?>"><i class="fa fa-circle-o"></i> Boxs</a></li>
-                    <?php if($this->session->userdata('smart_level')=='2'):?>
+                    <?php if($this->session->userdata('sip_level')=='2'):?>
                     <li><a href="<?=site_url('document')?>"><i class="fa fa-circle-o"></i> Documents</a></li>
                     <?php endif;?>
                 </ul>

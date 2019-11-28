@@ -18,6 +18,14 @@ class Document extends CI_Controller {
 		$this->load->view('doc/index',$data);
 	}
 
+	public function view($id_box){
+		$data = $this->m_box->get_box($id_box)->row_array();
+		$data['title'] = 'View Documents';
+		$data['lokasi'] = 'Blok '.$data['blok'].', Rak '.$data['rak'].', Lantai '.$data['lantai'];
+		$data['level'] = $this->session->userdata('sip_level');
+		$this->load->view('doc/master',$data);
+	}
+
 	public function ajax_dt_document(){
 		$id_box = $this->input->post('kodebox');
 		$data = $this->m_document->get_document_by_box($id_box)->result_array();
