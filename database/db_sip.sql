@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2019 at 05:25 AM
+-- Generation Time: Nov 28, 2019 at 02:12 PM
 -- Server version: 10.3.15-MariaDB
 -- PHP Version: 7.3.6
 
@@ -25,13 +25,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tb_berkas`
+--
+
+CREATE TABLE `tb_berkas` (
+  `id` int(4) NOT NULL,
+  `id_box` int(4) NOT NULL,
+  `id_jenis` int(4) NOT NULL,
+  `masa_pajak` int(2) NOT NULL COMMENT 'angka bulan',
+  `tahun_pajak` int(4) NOT NULL,
+  `status_pembetulan` int(4) NOT NULL,
+  `keterangan` text NOT NULL,
+  `status_pinjam` int(2) NOT NULL COMMENT '1 = dipinjam, 0 = tidak',
+  `deletedate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tb_box`
 --
 
 CREATE TABLE `tb_box` (
   `id` int(4) NOT NULL,
   `kode` varchar(10) NOT NULL,
-  `nama` varchar(200) NOT NULL,
+  `npwp` int(20) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `alamat` text NOT NULL,
+  `blok` varchar(4) NOT NULL,
+  `rak` varchar(4) NOT NULL,
+  `lantai` varchar(4) NOT NULL,
   `deletedate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -39,32 +62,22 @@ CREATE TABLE `tb_box` (
 -- Dumping data for table `tb_box`
 --
 
-INSERT INTO `tb_box` (`id`, `kode`, `nama`, `deletedate`) VALUES
-(1, 'B001', 'Box Rahasia', NULL),
-(2, 'B002', 'Box Kedua nya', '2019-11-24'),
-(3, 'B003', 'Tes Box', NULL);
+INSERT INTO `tb_box` (`id`, `kode`, `npwp`, `nama`, `alamat`, `blok`, `rak`, `lantai`, `deletedate`) VALUES
+(1, 'B001', 2147483647, 'Box A', 'Alamat A', 'A', '1', '3', NULL),
+(2, 'B002', 2147483647, 'Asda', 'asdasd', 'A', '1', '2', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_doc`
+-- Table structure for table `tb_jenis_berkas`
 --
 
-CREATE TABLE `tb_doc` (
-  `id` int(4) NOT NULL,
-  `id_box` int(4) NOT NULL,
-  `nama_file` varchar(150) NOT NULL,
+CREATE TABLE `tb_jenis_berkas` (
+  `id` int(11) NOT NULL,
+  `kode` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
   `deletedate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tb_doc`
---
-
-INSERT INTO `tb_doc` (`id`, `id_box`, `nama_file`, `deletedate`) VALUES
-(1, 1, 'Dokumen Rahasia', NULL),
-(2, 1, 'Dokumen Kedua', '2019-11-24'),
-(3, 1, 'Dokumen Kedua Fix', NULL);
 
 -- --------------------------------------------------------
 
@@ -87,7 +100,8 @@ INSERT INTO `tb_log` (`id`, `aksi`, `tanggal`, `id_user`) VALUES
 (1, 'View Box B001-Box Rahasia', '2019-11-24 13:58:47', 1),
 (2, 'View Box B003-Tes Box', '2019-11-24 19:59:49', 1),
 (3, 'View Box B001-Box Rahasia', '2019-11-24 20:00:21', 1),
-(4, 'View Box B003-Tes Box', '2019-11-24 20:00:44', 1);
+(4, 'View Box B003-Tes Box', '2019-11-24 20:00:44', 1),
+(5, 'View Box B001-Box A', '2019-11-27 20:41:17', 3);
 
 -- --------------------------------------------------------
 
@@ -119,6 +133,12 @@ INSERT INTO `tb_user` (`id`, `user`, `nama`, `password`, `level`, `deletedate`) 
 --
 
 --
+-- Indexes for table `tb_berkas`
+--
+ALTER TABLE `tb_berkas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tb_box`
 --
 ALTER TABLE `tb_box`
@@ -126,9 +146,9 @@ ALTER TABLE `tb_box`
   ADD UNIQUE KEY `kode` (`kode`);
 
 --
--- Indexes for table `tb_doc`
+-- Indexes for table `tb_jenis_berkas`
 --
-ALTER TABLE `tb_doc`
+ALTER TABLE `tb_jenis_berkas`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -148,22 +168,28 @@ ALTER TABLE `tb_user`
 --
 
 --
+-- AUTO_INCREMENT for table `tb_berkas`
+--
+ALTER TABLE `tb_berkas`
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tb_box`
 --
 ALTER TABLE `tb_box`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `tb_doc`
+-- AUTO_INCREMENT for table `tb_jenis_berkas`
 --
-ALTER TABLE `tb_doc`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `tb_jenis_berkas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_log`
 --
 ALTER TABLE `tb_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
