@@ -10,12 +10,13 @@ class Jenis_berkas extends CI_Controller {
 		$this->load->model('m_jenis_berkas');
 	}
 
-		public function index()
+	public function index()
 	{
 		$data = array(
-			'title' => 'Box Master',
+			'title' => 'Document Type Master',
 			'level' => $this->session->userdata('sip_level'),
 		);
+		submit_log('Melihat Halaman Database Jenis Berkas');
 		$this->load->view('jenis_berkas/index',$data);
 	}
 
@@ -44,6 +45,7 @@ class Jenis_berkas extends CI_Controller {
 						'message' => 'Data Saved Successfully',
 					)
 				);
+				submit_log('Menambah Data Jenis Berkas');
 			}else{
 				echo json_encode(
 					array(
@@ -61,6 +63,7 @@ class Jenis_berkas extends CI_Controller {
 						'message' => 'Data Saved Successfully',
 					)
 				);
+				submit_log('Mengupdate Data Jenis Berkas');
 			}else{
 				echo json_encode(
 					array(
@@ -84,6 +87,7 @@ class Jenis_berkas extends CI_Controller {
 					'message' => 'Data Delete Successfully',
 				)
 			);
+			submit_log('Menghapus Data Jenis Berkas');
 		}else{
 			echo json_encode(
 				array(

@@ -5,6 +5,9 @@ class Dashboard1 extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('dashboard1');
+		$data = array(
+			'level' => $this->session->userdata('sip_level'),
+		);
+		$this->load->view('dashboard1',$data);
 	}
 }

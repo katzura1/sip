@@ -152,21 +152,6 @@ $this->load->view('template/js');
 <script type="text/javascript">
 $(document).ready(function(){
 
-  function insert_log(keterangan){
-    $.ajax({
-      url : "<?=site_url('log/insert_log')?>",
-      data : {aksi : keterangan},
-      type : 'POST',
-      beforeSend : function(){},
-      success : function(result){
-        console.log(result);
-      },
-      error : function(xhr, ajaxOptions, thrownError){
-        console.log(xhr.status + ' - ' + thrownError);
-      }
-    })
-  }
-
   $('#btn_add').on('click', function(){
       $('.modal-title').html('Add Box');
       $('#kode').removeAttr('required');

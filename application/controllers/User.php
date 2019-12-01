@@ -13,10 +13,10 @@ class User extends CI_Controller {
 
 		$data = array(
 			'title' 	=> 'Master User',
-			'dd_level' 	=> array('1'=>'User','2'=>'Admin'),
+			'dd_level' 	=> array('1'=>'User','2'=>'Admin','3'=>'Super Admin'),
 			'level'		=> $this->session->userdata('sip_level'),
 		);
-
+		submit_log('Melihat halaman Database User');
 		$this->load->view('user/index',$data);
 	}
 
@@ -49,6 +49,7 @@ class User extends CI_Controller {
 						'message' => 'Data Saved Successfully',
 					)
 				);
+				submit_log('Menambah Data User');
 			}else{
 				echo json_encode(
 					array(
@@ -69,6 +70,7 @@ class User extends CI_Controller {
 						'message' => 'Data Saved Successfully',
 					)
 				);
+				submit_log('Mengupdate Data User');
 			}else{
 				echo json_encode(
 					array(
@@ -92,6 +94,7 @@ class User extends CI_Controller {
 					'message' => 'Data Delete Successfully',
 				)
 			);
+			submit_log('Menghapus Data User');
 		}else{
 			echo json_encode(
 				array(

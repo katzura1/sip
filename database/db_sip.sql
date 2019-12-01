@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2019 at 05:14 PM
+-- Generation Time: Dec 01, 2019 at 06:18 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -40,15 +40,6 @@ CREATE TABLE `tb_berkas` (
   `deletedate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tb_berkas`
---
-
-INSERT INTO `tb_berkas` (`id`, `id_box`, `id_jenis`, `masa_pajak`, `tahun_pajak`, `status_pembetulan`, `keterangan`, `status_pinjam`, `deletedate`) VALUES
-(1, 1, 1, 8, 2019, 0, 'Tes Keterangan', 0, NULL),
-(2, 1, 2, 10, 2014, 0, '0', 1, NULL),
-(3, 3, 2, 5, 2014, 0, 'Dokumen A', 1, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -64,17 +55,9 @@ CREATE TABLE `tb_box` (
   `blok` varchar(4) NOT NULL,
   `rak` varchar(4) NOT NULL,
   `lantai` varchar(4) NOT NULL,
+  `qrcode` text,
   `deletedate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tb_box`
---
-
-INSERT INTO `tb_box` (`id`, `kode`, `npwp`, `nama`, `alamat`, `blok`, `rak`, `lantai`, `deletedate`) VALUES
-(1, 'B001', '214748364722222', 'Box A', 'Alamat A', 'A', '1', '3', NULL),
-(2, 'B002', '2147483647', 'Asda', 'asdasd', 'A', '1', '2', NULL),
-(3, 'B003', '2147483647', 'Box Contoh', 'Alamat A', 'B', '23', '4', NULL);
 
 -- --------------------------------------------------------
 
@@ -98,7 +81,8 @@ INSERT INTO `tb_jenis_berkas` (`id`, `kode`, `nama`, `deletedate`) VALUES
 (2, 2, 'SPT Tahunan PPH 21', NULL),
 (3, 0, 'SPT Masa Pph 21', '2019-11-28'),
 (4, 3, 'SPT Masa Pph 21', NULL),
-(5, 4, 'SPT Masa Pph 22', NULL);
+(5, 4, 'SPT Masa Pph 22', NULL),
+(6, 1, '1', '2019-11-30');
 
 -- --------------------------------------------------------
 
@@ -118,11 +102,36 @@ CREATE TABLE `tb_log` (
 --
 
 INSERT INTO `tb_log` (`id`, `aksi`, `tanggal`, `id_user`) VALUES
-(1, 'View Box B001-Box Rahasia', '2019-11-24 13:58:47', 1),
-(2, 'View Box B003-Tes Box', '2019-11-24 19:59:49', 1),
-(3, 'View Box B001-Box Rahasia', '2019-11-24 20:00:21', 1),
-(4, 'View Box B003-Tes Box', '2019-11-24 20:00:44', 1),
-(5, 'View Box B001-Box A', '2019-11-27 20:41:17', 3);
+(1, 'Logout', '2019-11-30 16:15:26', 4),
+(2, 'login', '2019-11-30 16:15:49', 3),
+(3, 'Melihat halaman Database User', '2019-11-30 16:17:01', 3),
+(4, 'Melihat halaman Database User', '2019-11-30 16:17:15', 3),
+(5, 'Melihat halaman Database User', '2019-11-30 16:17:20', 3),
+(6, 'Melihat Halaman Database Box', '2019-11-30 16:17:21', 3),
+(7, 'Menambah Data Box :B002', '2019-11-30 16:18:23', 3),
+(8, 'Melihat Halaman Box B001', '2019-11-30 16:18:33', 3),
+(9, 'Menambah Data Berkas', '2019-11-30 16:18:54', 3),
+(10, 'Logout', '2019-11-30 16:19:01', 3),
+(11, 'Login', '2019-11-30 16:19:07', 4),
+(12, 'Melihat halaman Database User', '2019-11-30 16:19:42', 4),
+(13, 'Melihat Halaman Database Box', '2019-11-30 17:10:23', 4),
+(14, 'Menambah Data Box :B003', '2019-11-30 17:10:31', 4),
+(15, 'Melihat Halaman Database Box', '2019-11-30 17:11:49', 4),
+(16, 'Melihat Halaman Database Box', '2019-11-30 17:18:21', 4),
+(17, 'Menghapus Data Box B001', '2019-11-30 17:19:36', 4),
+(18, 'Menghapus Data Box B002', '2019-11-30 17:19:38', 4),
+(19, 'Melihat Halaman Database Box', '2019-11-30 17:20:48', 4),
+(20, 'Melihat Halaman Database Box', '2019-11-30 17:21:08', 4),
+(21, 'Melihat Halaman Database Box', '2019-11-30 17:21:16', 4),
+(22, 'Melihat Halaman Database Box', '2019-11-30 17:22:01', 4),
+(23, 'Melihat Halaman Database Box', '2019-11-30 17:23:06', 4),
+(24, 'Login', '2019-12-01 11:53:14', 3),
+(25, 'Melihat Halaman Box B003', '2019-12-01 12:12:23', 3),
+(26, 'Melihat Halaman Database Box', '2019-12-01 12:12:34', 3),
+(27, 'Menambah Data Box :B004', '2019-12-01 12:15:13', 3),
+(28, 'Melihat Halaman Box B004', '2019-12-01 12:15:53', 3),
+(29, 'Melihat Halaman Box B003', '2019-12-01 12:16:08', 3),
+(30, 'Menambah Data Berkas', '2019-12-01 12:16:23', 3);
 
 -- --------------------------------------------------------
 
@@ -147,7 +156,8 @@ INSERT INTO `tb_user` (`id`, `user`, `nama`, `password`, `level`, `deletedate`) 
 (1, 'user', 'user', '$2y$10$ua5gTLRmFPj4z9qFRA7GveMk6yT6PcOnUkv4.71auUNzPUZOTVuOO', 1, NULL),
 (2, 'a', 'a', '$2y$10$Ybs4fjUs2RlGlS7a8AMoluMkZbm9maiB00DpK1nMyOghgUrNxqUrC', 1, '2019-11-17'),
 (3, 'admin1', 'admin', '$2y$10$7Xldi4tRo5xuujsvs36Mxe/2h7CGgB3/yGntdMj2fJ.Cnb2aTDV92', 2, NULL),
-(4, '1', '1', '$2y$10$W3qG8M9IYJd/fxSlqjm6AuokavaAdPexiGCVdEDOt7BT7mlrQ0xkO', 1, NULL);
+(4, 'superadmin', 'Super Admin', '$2y$10$V.OQGsVQdXGashMP7vETyOWDitERMT2QEayi85hTyAi5OVTah.Rei', 3, NULL),
+(5, 'user1', 'user1', '$2y$10$tsP8RMqjxWXOJy0GrMJXs.W3k4SDYWBEMeIdL9xnBkvxvNf151khi', 1, '2019-11-30');
 
 --
 -- Indexes for dumped tables
@@ -192,31 +202,31 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `tb_berkas`
 --
 ALTER TABLE `tb_berkas`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_box`
 --
 ALTER TABLE `tb_box`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_jenis_berkas`
 --
 ALTER TABLE `tb_jenis_berkas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tb_log`
 --
 ALTER TABLE `tb_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

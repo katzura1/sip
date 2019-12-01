@@ -34,6 +34,8 @@ class Document extends CI_Controller {
 		$data['level'] 		= $this->session->userdata('sip_level');
 		$data['dd_jb'] 		= $this->m_jenis_berkas->dd_jenis_berkas();
 		$data['dd_bulan']	= $this->m_app->dd_bulan();
+
+		submit_log('Melihat Halaman Box '.$data['kode']);
 		$this->load->view('doc/master',$data);
 	}
 
@@ -77,6 +79,7 @@ class Document extends CI_Controller {
 			unset($data['id']);
 			$insert = $this->m_app->insert_global('tb_berkas',$data);
 			if($insert>0){
+				submit_log('Menambah Data Berkas');
 				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
 			}else{
 				echo json_encode(array('code'=>500,'message'=>'data save failed'));
@@ -86,6 +89,7 @@ class Document extends CI_Controller {
 			unset($data['id']);
 			$update = $this->m_app->update_global('tb_berkas',array('id'=>$id),$data);
 			if($update>=0){
+				submit_log('Mengupdate Data Berkas');
 				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
 			}else{
 				echo json_encode(array('code'=>500,'message'=>'data save failed'));
@@ -99,6 +103,7 @@ class Document extends CI_Controller {
 		$data = array('deletedate'=>date('Y-m-d'));
 		$delete = $this->m_app->update_global('tb_berkas',array('id'=>$id),$data);
 		if($delete>0){
+			submit_log('Menghapus Data Berkas');
 			echo json_encode(array('code'=>200,'message'=>'data deleted successfully'));
 		}else{
 			echo json_encode(array('code'=>500,'message'=>'data delete failed'));

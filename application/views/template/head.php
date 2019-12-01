@@ -42,4 +42,9 @@
                 max-width: 80px;
                 height: auto;
             }
+
+            .img-responsive{
+                max-width: 250px;
+                height: auto;
+            }
         </style>

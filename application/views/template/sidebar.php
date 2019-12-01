@@ -23,21 +23,20 @@
                 </a>
             </li>
             <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-files-o"></i>
-                    <span>Master Data</span> <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=site_url('user')?>"><i class="fa fa-circle-o"></i> Users</a></li>
-                    <li><a href="<?=site_url('box')?>"><i class="fa fa-circle-o"></i> Boxs</a></li>
-                    <?php if($this->session->userdata('sip_level')=='2'):?>
-                    <li><a href="<?=site_url('jenis_berkas')?>"><i class="fa fa-circle-o"></i> Documents Type</a></li>
-                    <?php endif;?>
-                </ul>
+                <a href="<?=site_url('box')?>"><i class="fa fa-book"></i> Box</a>
             </li>
-
-            <li><a href="#"><i class="fa fa-book"></i> Documentation</a></li>
-
+            <li class="treeview">
+                <a href="<?=site_url('jenis_berkas')?>"><i class="fa fa-file"></i> Jenis Berkas</a>
+            </li>
+            <li class="treeview">
+                <a href="<?=site_url('user')?>"><i class="fa fa-user"></i> User</a>
+            </li>
+            <li class="treeview">
+                <a href="<?=site_url('log')?>"><i class="fa fa-calendar"></i> Log</a>
+            </li>
+            <li class="treeview">
+                <a href="<?=site_url('logout')?>"><i class="fa fa-sign-out"></i> Logout</a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

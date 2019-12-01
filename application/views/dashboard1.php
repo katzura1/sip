@@ -15,7 +15,12 @@ $this->load->view('template/head');
 <link href="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/daterangepicker/daterangepicker-bs3.css') ?>" rel="stylesheet" type="text/css" />
 <!-- bootstrap wysihtml5 - text editor -->
 <link href="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') ?>" rel="stylesheet" type="text/css" />
-
+<style type="text/css">
+video {
+  width: 100%;
+  max-height: 100%;
+}
+</style>
 <?php
 $this->load->view('template/topbar');
 $this->load->view('template/sidebar');
@@ -34,15 +39,39 @@ $this->load->view('template/sidebar');
         <div class="col-lg-3">
             <input type="text" name="search_box" class="form-control" placeholder="Kode / Nama Box..." required>
         </div>
-        <div col-lg-1>
+        <div class="col-lg-1">
             <button type="submit" class="btn btn-danger">
-                <i class="fa fa-search"></i>
+                <i class="fa fa-search"> Search</i>
+            </button>
+        </div>
+        <div class="col-lg-1">
+            <button type="button" class="btn btn-danger" id="btn_scan">
+                <i class="fa fa-barcode"> Scan</i>
             </button>
         </div>
     </div>
     </form>
 </section>
-
+<!-- Modal -->
+<div class="modal fade" id="modal_scan">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_scan_title">Scan Barcode</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <video id="preview"></video>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <?php
 $this->load->view('template/js');
 ?>
@@ -77,7 +106,53 @@ $(document).ready(function(){
                 })
             }
         })
+    });
+
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+      scanner.addListener('scan', function (content) {
+        alert(content);
+        $.ajax({
+            url : "<?=site_url('box/get_box_id')?>",
+            data : {kode : content},
+            type : 'POST',
+            beforeSend : function(){
+
+            },
+            success : function(result){
+                if(result==0){
+                    alert('Not Found');
+                }else{
+                    window.location.href="<?=site_url('document/view/')?>"+result;
+                }
+                
+            },
+            error : function(xhr, ajaxOptions, thrownError){
+                alert(xhr.status+' : '+thrownError);
+            }
+        })
+      });
+
+    $('#modal_scan').on('shown', function(){
+        scan_qr();
+    });
+
+    $('#btn_scan').on('click', function(){
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+              scanner.start(cameras[0]);
+            } else {
+              console.error('No cameras found.');
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+        $('#modal_scan').modal();
     })
+
+    $('#modal_scan').on('hidden.bs.modal', function(e){
+        scanner.stop();
+    })
+
 })
 </script>
 <?php

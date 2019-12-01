@@ -26,6 +26,7 @@ class Auth extends CI_Controller {
 					'sip_level'	   => $data_user['level'],
 				);
 				$data = $this->session->set_userdata($data_session);
+				submit_log('Login');
 				redirect('dashboard1');
 			}else{
 				echo '<script type="text/javascript">'; 
@@ -43,7 +44,10 @@ class Auth extends CI_Controller {
         
     public function logout()
 	{
-		$this->session->sess_destroy();\
+		if($this->session->userdata('sip_id')){
+			submit_log('Logout');
+		}
+		$this->session->sess_destroy();
 		redirect('Auth');
 	}
 }

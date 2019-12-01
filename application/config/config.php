@@ -17,7 +17,7 @@ date_default_timezone_set('Asia/Jakarta');
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/sip/';
+$config['base_url'] = "http://".$_SERVER['HTTP_HOST'].str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 
 /*
 |--------------------------------------------------------------------------

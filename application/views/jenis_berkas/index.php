@@ -99,213 +99,173 @@ $this->load->view('template/js');
 <script type="text/javascript">
 $(document).ready(function(){
 
-  function insert_log(keterangan){
-    $.ajax({
-      url : "<?=site_url('log/insert_log')?>",
-      data : {aksi : keterangan},
-      type : 'POST',
-      beforeSend : function(){},
-      success : function(result){
-        console.log(result);
+  var tb = $('#tb_jenis_berkas').DataTable({
+      ajax : {
+          url : "<?=site_url('jenis_berkas/ajax_dt_jenis_berkas')?>",
+          data : {},
+          type : 'POST',
       },
-      error : function(xhr, ajaxOptions, thrownError){
-        console.log(xhr.status + ' - ' + thrownError);
-      }
-    })
-  }
+      order : [],
+      columns : [
+          {
+              data : 'id'
+          },
+          {
+              data : 'kode'
+          },
 
-    var tb = $('#tb_jenis_berkas').DataTable({
-        ajax : {
-            url : "<?=site_url('jenis_berkas/ajax_dt_jenis_berkas')?>",
-            data : {},
-            type : 'POST',
-        },
-        order : [],
-        columns : [
-            {
-                data : 'id'
-            },
-            {
-                data : 'kode'
-            },
+          {
+              data : 'nama'
+          },
 
-            {
-                data : 'nama'
-            },
+          {
+              data : 'id',
+              render : function(data, type, row){
+                var level = "<?=$level?>";
+                var btn1 = '<button class="btn btn-warning btn-sm text-white mr-2 mb-2 btn-edit" data-id="'+data+'"><i class="fa fa-edit"></i></button>';
+                var btn2 = '<button class="btn btn-danger btn-sm text-white mr-2 mb-2 btn-delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>';
+                var btn3 = '<a class="btn btn-success btn-sm text-white mr-2 mb-2 btn-view" href="<?=site_url('document/view/')?>'+data+'"><i class="fa fa-eye"></i></a>';
+                return btn1+btn2;
+              },
+              visible : <?=($level<2?'false':'true')?>
+          },
+      ],
+  });
 
-            {
-                data : 'id',
-                render : function(data, type, row){
-                  var level = "<?=$level?>";
-                  var btn1 = '<button class="btn btn-warning btn-sm text-white mr-2 mb-2 btn-edit" data-id="'+data+'"><i class="fa fa-edit"></i></button>';
-                  var btn2 = '<button class="btn btn-danger btn-sm text-white mr-2 mb-2 btn-delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>';
-                  var btn3 = '<a class="btn btn-success btn-sm text-white mr-2 mb-2 btn-view" href="<?=site_url('document/view/')?>'+data+'"><i class="fa fa-eye"></i></a>';  
-                  return btn1+btn2;
-                },
-            },
-        ],
-    });
+  tb.on( 'order.dt search.dt', function () {
+      tb.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+      } );
+  } ).draw();
 
-    tb.on( 'order.dt search.dt', function () {
-        tb.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
+  $('#btn_add').on('click', function(){
+      $('.modal-title').html('Add Document Type');
+      // $('#kode').removeAttr('required');
+      // $('#kode').prop('readonly',true);
+      // $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
+      $('#modal_add').modal();
+  })
 
-    $('#btn_add').on('click', function(){
-        $('.modal-title').html('Add Document Type');
-        // $('#kode').removeAttr('required');
-        // $('#kode').prop('readonly',true);
-        // $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
-        $('#modal_add').modal();
-    })
+  $('.btn-close').on('click', function(){
+      $('#form_jenis_berkas')[0].reset();
+  })
 
-    $('.btn-close').on('click', function(){
-        $('#form_jenis_berkas')[0].reset();
-    })
+  $(document).on('click', '.btn-delete' ,function(){
+      var id = $(this).data('id');
 
-    $(document).on('click', '.btn-delete' ,function(){
-        var id = $(this).data('id');
-
-        if(confirm('Are you sure ?')){
-            $.ajax({
-                url : "<?=site_url('jenis_berkas/delete_jenis_berkas')?>",
-                data : {id : id},
-                type : 'POST',
-                dataType : 'JSON',
-                beforeSend : function(){},
-                success : function(result){
-                    if(result.code=='200'){
-                      Swal.fire({
-                          icon: 'success',
-                          title: 'Great',
-                          text: 'Data saved successfully',
-                       })
-                    }else{
-                      Swal.fire({
-                          icon: 'warning',
-                          title: 'Error',
-                          text: result.message,
-                       })
-                    }
-                    tb.ajax.reload();
-                },
-                error : function(xhr, ajaxOptions, thrownError){
+      if(confirm('Are you sure ?')){
+          $.ajax({
+              url : "<?=site_url('jenis_berkas/delete_jenis_berkas')?>",
+              data : {id : id},
+              type : 'POST',
+              dataType : 'JSON',
+              beforeSend : function(){},
+              success : function(result){
+                  if(result.code=='200'){
                     Swal.fire({
-                      icon: 'warning',
-                      title: 'Error',
-                      text: xhr.status + ' ' +thrownError,
-                   })
-                }
-            })
-        }
-    })
-    
-    $(document).on('click','.btn-edit', function(){
-        var id = $(this).data('id');
+                        icon: 'success',
+                        title: 'Great',
+                        text: 'Data saved successfully',
+                     })
+                  }else{
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Error',
+                        text: result.message,
+                     })
+                  }
+                  tb.ajax.reload();
+              },
+              error : function(xhr, ajaxOptions, thrownError){
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: xhr.status + ' ' +thrownError,
+                 })
+              }
+          })
+      }
+  })
+  
+  $(document).on('click','.btn-edit', function(){
+      var id = $(this).data('id');
 
-        $.ajax({
-            url : "<?=site_url('jenis_berkas/get_info')?>",
-            data : {id : id},
-            type : 'GET',
+      $.ajax({
+          url : "<?=site_url('jenis_berkas/get_info')?>",
+          data : {id : id},
+          type : 'GET',
+          dataType : 'JSON',
+          beforeSend : function(){
+              // $('.modal-title').html('Edit Box');
+              // $('#kode').removeAttr('required');
+              // $('#kode').prop('readonly',true);
+              // $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
+          },
+          success: function(result){
+              console.log(result);
+              $.each(result, function(i,val){
+                  $('#'+i).val(val).change();
+              });
+              $('#modal_add').modal();
+          },
+          error : function(xhr, ajaxOptions, thrownError){
+            Swal.fire({
+              icon: 'warning',
+              title: 'Error',
+              text: xhr.status + ' ' +thrownError,
+            })  
+          }
+      })
+  })
+
+  $('#modal_add').on('hidden.bs.modal', function () {
+     $('input[name=id]').val('');
+     $('#form_jenis_berkas')[0].reset();
+  });
+
+  $('#form_jenis_berkas').on('submit', function(e){
+      e.preventDefault();
+
+      if(confirm('Are you sure ?')){
+          var formdata = new FormData($(this)[0]);
+          $.ajax({
+            url : "<?=site_url('jenis_berkas/submitForm')?>",
+            data: formdata,
+            processData: false,
+            contentType: false,
+            async: false,
+            cache: false,
+            enctype: 'multipart/form-data',
+            type : 'POST',
             dataType : 'JSON',
-            beforeSend : function(){
-                // $('.modal-title').html('Edit Box');
-                // $('#kode').removeAttr('required');
-                // $('#kode').prop('readonly',true);
-                // $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
+            beforeSend : function(){},
+            success : function (result) {
+              if(result.code=='200'){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Great',
+                    text: 'Data saved successfully',
+                 })
+              }else{
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: result.message,
+                 })
+              }
+              tb.ajax.reload();
+              $('#modal_add').modal('hide');
             },
-            success: function(result){
-                console.log(result);
-                $.each(result, function(i,val){
-                    $('#'+i).val(val).change();
-                });
-                $('#modal_add').modal();
-            },
-            error : function(xhr, ajaxOptions, thrownError){
+            error : function(xhr, ajaxOptions, thrownError) {
               Swal.fire({
                 icon: 'warning',
                 title: 'Error',
                 text: xhr.status + ' ' +thrownError,
-              })  
+             })
             }
-        })
-    })
-    
-    // $(document).on('click','.btn-view', function(){
-    //     var id = $(this).data('id');
-    //     var row = tb.row($(this).parent().parent()).data();
-    //     $('#modal_title_view').html(row['kode']+'-'+row['nama']);
-    //     $.ajax({
-    //         url : "<?=site_url('jenis_berkas/get_document')?>",
-    //         data : {id : id},
-    //         type : 'GET',
-    //         beforeSend : function(){
-    //             $('#tb_doc tbody').html('');
-    //         },
-    //         success: function(result){
-    //            $('#tb_doc tbody').html(result);
-    //            insert_log('View Box '+row['kode']+'-'+row['nama']);
-    //            $('#modal_view').modal();
-    //         },
-    //         error : function(xhr, ajaxOptions, thrownError){
-    //           Swal.fire({
-    //             icon: 'warning',
-    //             title: 'Error',
-    //             text: xhr.status + ' ' +thrownError,
-    //           })  
-    //         }
-    //     })
-    // })
-
-    $('#modal_add').on('hidden.bs.modal', function () {
-       $('input[name=id]').val('');
-       $('#form_jenis_berkas')[0].reset();
-    });
-
-    $('#form_jenis_berkas').on('submit', function(e){
-        e.preventDefault();
-
-        if(confirm('Are you sure ?')){
-            var formdata = new FormData($(this)[0]);
-            $.ajax({
-              url : "<?=site_url('jenis_berkas/submitForm')?>",
-              data: formdata,
-              processData: false,
-              contentType: false,
-              async: false,
-              cache: false,
-              enctype: 'multipart/form-data',
-              type : 'POST',
-              dataType : 'JSON',
-              beforeSend : function(){},
-              success : function (result) {
-                if(result.code=='200'){
-                  Swal.fire({
-                      icon: 'success',
-                      title: 'Great',
-                      text: 'Data saved successfully',
-                   })
-                }else{
-                  Swal.fire({
-                      icon: 'warning',
-                      title: 'Error',
-                      text: result.message,
-                   })
-                }
-                tb.ajax.reload();
-                $('#modal_add').modal('hide');
-              },
-              error : function(xhr, ajaxOptions, thrownError) {
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'Error',
-                  text: xhr.status + ' ' +thrownError,
-               })
-              }
-            })
-        }
-    })
+          })
+      }
+  })
 })
 </script>
 <?php

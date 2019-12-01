@@ -24,14 +24,34 @@
 <!--SweetAlert-->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script type="text/javascript">
-   $(document).ready(function(){
-  var url = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
-  $('.treeview-menu li').removeClass('active');
-  $('[href$="'+url+'"]').parent().addClass("active");
-  $('.treeview').removeClass('menu-open active');
-  $('[href$="'+url+'"]').closest('li.treeview').addClass("menu-open active");
-});
+  $(document).ready(function(){
+    var url = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+    $('.treeview-menu li').removeClass('active');
+    $('[href$="'+url+'"]').parent().addClass("active");
+    $('.treeview').removeClass('menu-open active');
+    $('[href$="'+url+'"]').closest('li.treeview').addClass("menu-open active");
+
+
+    function insert_log(keterangan){
+      $.ajax({
+        url : "<?=site_url('log/insert_log')?>",
+        data : {aksi : keterangan},
+        type : 'POST',
+        beforeSend : function(){},
+        success : function(result){
+          console.log(result);
+        },
+        error : function(xhr, ajaxOptions, thrownError){
+          console.log(xhr.status + ' - ' + thrownError);
+        }
+      })
+    }
+
+  });
 </script>
 
 <!--SELECT2-->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+
+<!--Instascan-->
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>

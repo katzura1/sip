@@ -34,7 +34,7 @@ $this->load->view('template/sidebar');
         <div class="box-body">
             <div class="row">
                 <div class="col-sm-12">
-                  <?php if($level>1) : ?>
+                  <?php if($level>2) : ?>
                     <button id="btn_add" class="btn btn-sm btn-primary">
                         <i class="fa fa-plus"> Add New User</i>
                     </button>
@@ -67,7 +67,7 @@ $this->load->view('template/sidebar');
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">New User</h4>
+        <h4 class="modal-title" id="modal_title">New User</h4>
       </div>
       <form method="POST" id="form_user">
       <div class="modal-body">
@@ -129,11 +129,13 @@ $(document).ready(function(){
             {
                 data : 'level',
                 render : function(data, type, row){
-                    if(data=='1'){
-                        return 'User';
-                    }else{
-                        return 'Admin';
-                    }
+                  if(data=='1'){
+                    return 'User';
+                  }else if(data=='2'){
+                    return 'Admin';
+                  }else{
+                    return 'Super Admin';
+                  }
                 }
             },
             {
@@ -144,7 +146,7 @@ $(document).ready(function(){
                     var btn2 = '<button class="btn btn-danger btn-sm text-white mr-2 mb-2 btn-delete" data-id="'+data+'"><i class="fa fa-trash"></i></button>';
                     return btn1+btn2;
                 },
-                visible : <?=$level=='1'?'false':'true'?>
+                visible : <?=$level<3?'false':'true'?>
             },
         ],
     });
@@ -158,6 +160,7 @@ $(document).ready(function(){
     $('#btn_add').on('click', function(){
         $('input[name=password]').attr('required',true);
         $('#help_password').html('');
+        $('#modal_title').html('Add User');
         $('#modal_add').modal();
     })
 
@@ -211,8 +214,9 @@ $(document).ready(function(){
             type : 'GET',
             dataType : 'JSON',
             beforeSend : function(){
-                $('input[name=password]').removeAttr('required');
-                $('#help_password').html('Biarkan kosong, apabila tidak ingin mengubah <i>password</i>.')
+              $('#modal_title').html('Edit User');
+              $('input[name=password]').removeAttr('required');
+              $('#help_password').html('Biarkan kosong, apabila tidak ingin mengubah <i>password</i>.')
             },
             success: function(result){
                 console.log(result);
