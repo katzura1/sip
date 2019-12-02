@@ -31,11 +31,13 @@
             <li class="treeview">
                 <a href="<?=site_url('user')?>"><i class="fa fa-user"></i> User</a>
             </li>
+            <?php if($level=='3'): ?>
             <li class="treeview">
                 <a href="<?=site_url('log')?>"><i class="fa fa-calendar"></i> Log</a>
             </li>
+            <?php endif; ?>
             <li class="treeview">
-                <a href="<?=site_url('logout')?>"><i class="fa fa-sign-out"></i> Logout</a>
+                <a href="<?=site_url('auth/logout')?>"><i class="fa fa-sign-out"></i> Logout</a>
             </li>
         </ul>
     </section>

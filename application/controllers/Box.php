@@ -44,7 +44,7 @@ class Box extends CI_Controller {
 
 		$data_box = array(
 			'kode' 		=> $this->input->post('kode'),
-			'npwp' 		=> $this->input->post('npwp'),
+			'npwp' 		=> str_replace('.','',str_replace('-','',$this->input->post('npwp'))),
 			'nama' 		=> $this->input->post('nama'),
 			'alamat' 	=> $this->input->post('alamat'),
 			'blok' 		=> $this->input->post('blok'),

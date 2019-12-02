@@ -10,6 +10,7 @@
 
 <!-- jQuery  -->
 <script src="<?php echo base_url('assets/AdminLTE-2.0.5/plugins/jQuery/jQuery.min.js') ?>"></script>
+<script src="<?php echo base_url('/assets/js/jquery.inputmask.bundle.js')?>"></script>
 <!-- Bootstrap 3.3.2 JS -->
 <script src="<?php echo base_url('assets/AdminLTE-2.0.5/bootstrap/js/bootstrap.min.js') ?>" type="text/javascript"></script>
 <!-- SlimScroll -->

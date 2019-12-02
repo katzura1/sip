@@ -110,7 +110,7 @@ $(document).ready(function(){
 
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
       scanner.addListener('scan', function (content) {
-        alert(content);
+        //alert(content);
         $.ajax({
             url : "<?=site_url('box/get_box_id')?>",
             data : {kode : content},

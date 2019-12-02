@@ -82,7 +82,7 @@ $this->load->view('template/sidebar');
         </div>
         <div class="form-group">
           <label>NPWP</label>
-          <input type="text" class="form-control" name="npwp" id="npwp" placeholder="Enter ..." required minlength="15" maxlength="15" />
+          <input type="text" class="form-control" name="npwp" id="npwp" placeholder="Enter ..." required minlength="20" maxlength="20" />
         </div>
         <div class="form-group">
           <label>Nama</label>
@@ -176,6 +176,8 @@ $this->load->view('template/js');
 <script type="text/javascript">
 $(document).ready(function(){
 
+  $("#npwp").inputmask({"mask": "99.999.999.9-999.999"});
+
   function insert_log(keterangan){
     $.ajax({
       url : "<?=site_url('log/insert_log')?>",
@@ -206,7 +208,10 @@ $(document).ready(function(){
               data : 'kode'
           },
           {
-              data : 'npwp'
+              data : 'npwp',
+              render : function(data, type, row){
+                return data.replace(/(\d{2})(\d{3})(\d{3})(\d{1})(\d{3})(\d{3})/, '$1.$2.$3.$4-$5.$6');
+              }
           },
           {
               data : 'nama'

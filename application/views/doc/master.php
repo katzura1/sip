@@ -46,7 +46,7 @@ $this->load->view('template/sidebar');
                         <td style="width: 10%">Kode Box </td><td style="width: 3%">:</td><td> <?=$kode?></td>
                       </tr>
                       <tr>
-                        <td style="width: 10%">NPWP </td><td style="width: 3%">:</td><td> <?=$npwp?></td>
+                        <td style="width: 10%">NPWP </td><td style="width: 3%">:</td><td> <p id="npwp"><?=$npwp?></p></td>
                       </tr>
                       <tr>
                         <td style="width: 10%">Nama </td><td style="width: 3%">:</td><td> <?=$nama?></td>
@@ -151,6 +151,10 @@ $this->load->view('template/js');
 <!--tambahkan custom js disini-->
 <script type="text/javascript">
 $(document).ready(function(){
+
+  $('#npwp').text(function(i, text) {
+    return text.replace(/(\d{2})(\d{3})(\d{3})(\d{1})(\d{3})(\d{3})/, '$1.$2.$3.$4-$5.$6');
+  });
 
   $('#btn_add').on('click', function(){
       $('.modal-title').html('Add Box');
