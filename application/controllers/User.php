@@ -70,7 +70,7 @@ class User extends CI_Controller {
 						'message' => 'Data Saved Successfully',
 					)
 				);
-				submit_log('Mengupdate Data User');
+				submit_log('Meng-update Data User');
 			}else{
 				echo json_encode(
 					array(

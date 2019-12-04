@@ -63,7 +63,7 @@ class Jenis_berkas extends CI_Controller {
 						'message' => 'Data Saved Successfully',
 					)
 				);
-				submit_log('Mengupdate Data Jenis Berkas');
+				submit_log('Meng-update Data Jenis Berkas');
 			}else{
 				echo json_encode(
 					array(

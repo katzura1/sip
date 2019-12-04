@@ -89,7 +89,7 @@ class Box extends CI_Controller {
 						'message' => 'Data Saved Successfully',
 					)
 				);
-				submit_log('Mengupdate Data Box '.$data_box['kode']);
+				submit_log('Meng-update Data Box '.$data_box['kode']);
 			}else{
 				echo json_encode(
 					array(

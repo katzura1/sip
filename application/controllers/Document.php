@@ -91,7 +91,7 @@ class Document extends CI_Controller {
 			unset($data['id']);
 			$update = $this->m_app->update_global('tb_berkas',array('id'=>$id),$data);
 			if($update>=0){
-				submit_log('Mengupdate Data Berkas di Box '.$kodebox);
+				submit_log('Meng-update Data Berkas di Box '.$kodebox);
 				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
 			}else{
 				echo json_encode(array('code'=>500,'message'=>'data save failed'));
