@@ -119,11 +119,11 @@ $this->load->view('template/sidebar');
         </div>
         <div class="form-group">
           <label>Status Pembetulan</label>
-          <input type="text" class="form-control" name="status_pembetulan" id="status_pembetulan" placeholder="Enter ..." maxlength="8" required/>
+          <input type="text" class="form-control" name="status_pembetulan" id="status_pembetulan" placeholder="Enter ..." maxlength="3" required/>
         </div>
         <div class="form-group">
           <label>Keterangan</label>
-          <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Enter ..." required/>
+          <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Enter ..." maxlength="240" required/>
         </div>
         <div class="form-group">
           <label>Status Pinjam</label>
@@ -188,13 +188,17 @@ $(document).ready(function(){
                     Swal.fire({
                         icon: 'success',
                         title: 'Great',
-                        text: 'Data saved successfully',
+                        text: 'Data saved successfully',                       
+                        showConfirmButton: false,
+                        timer: 1500
                      })
                   }else{
                     Swal.fire({
                         icon: 'warning',
                         title: 'Error',
                         text: result.message,
+                        showConfirmButton: false,
+                        timer: 1500
                      })
                   }
                   tb.ajax.reload();
@@ -204,6 +208,8 @@ $(document).ready(function(){
                     icon: 'warning',
                     title: 'Error',
                     text: xhr.status + ' ' +thrownError,
+                    showConfirmButton: false,
+                    timer: 1500
                  })
               }
           })
@@ -236,6 +242,8 @@ $(document).ready(function(){
               icon: 'warning',
               title: 'Error',
               text: xhr.status + ' ' +thrownError,
+              showConfirmButton: false,
+              timer: 1500
             })  
           }
       })
@@ -262,6 +270,8 @@ $(document).ready(function(){
               icon: 'warning',
               title: 'Error',
               text: xhr.status + ' ' +thrownError,
+              showConfirmButton: false,
+              timer: 1500
             })  
           }
       })
@@ -293,12 +303,16 @@ $(document).ready(function(){
                   icon: 'success',
                   title: 'Great',
                   text: 'Data saved successfully',
+                  showConfirmButton: false,
+                  timer: 1500
                })
             }else{
               Swal.fire({
                   icon: 'warning',
                   title: 'Error',
                   text: result.message,
+                  showConfirmButton: false,
+                  timer: 1500
                })
             }
             tb.ajax.reload();
@@ -309,6 +323,8 @@ $(document).ready(function(){
               icon: 'warning',
               title: 'Error',
               text: xhr.status + ' ' +thrownError,
+              showConfirmButton: false,
+              timer: 1500   
            })
           }
         })

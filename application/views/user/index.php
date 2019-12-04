@@ -74,15 +74,15 @@ $this->load->view('template/sidebar');
         <input type="hidden" id="id" name="id">
         <div class="form-group">
           <label>Username</label>
-          <input type="text" class="form-control" name="user" id="user" placeholder="Enter ..." required />
+          <input type="text" class="form-control" name="user" id="user" placeholder="Enter ..." required maxlength="30" />
         </div>
         <div class="form-group">
           <label>Nama</label>
-          <input type="text" class="form-control" name="nama" id="nama" placeholder="Enter ..." required/>
+          <input type="text" class="form-control" name="nama" id="nama" placeholder="Enter ..." required maxlength="30" />
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="text" class="form-control" name="password" id="password" placeholder="Enter ..." required/>
+          <input type="text" class="form-control" name="password" id="password" placeholder="Enter ..." required maxlength="30" />
           <p class="help-block" id="help_password"></p>
         </div>
         <div class="form-group">

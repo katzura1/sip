@@ -5,7 +5,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?php echo base_url('assets/AdminLTE-2.0.5/dist/img/user2-160x160.jpg') ?>" class="img-circle" alt="User Image" />
+                <img src="<?php echo base_url('assets/AdminLTE-2.0.5/dist/img/avatar6.png') ?>" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
                 <p><?=$this->session->userdata('sip_nama')?></p>
@@ -19,7 +19,7 @@
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
                 <a href="<?=site_url('dashboard1')?>">
-                    <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
+                    <i class="fa fa-dashboard"></i> <span>Search Box</span> 
                 </a>
             </li>
             <li class="treeview">
@@ -28,10 +28,10 @@
             <li class="treeview">
                 <a href="<?=site_url('jenis_berkas')?>"><i class="fa fa-file"></i> Jenis Berkas</a>
             </li>
+            <?php if($level=='3'): ?>
             <li class="treeview">
                 <a href="<?=site_url('user')?>"><i class="fa fa-user"></i> User</a>
             </li>
-            <?php if($level=='3'): ?>
             <li class="treeview">
                 <a href="<?=site_url('log')?>"><i class="fa fa-calendar"></i> Log</a>
             </li>

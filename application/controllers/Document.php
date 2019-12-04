@@ -77,19 +77,21 @@ class Document extends CI_Controller {
 		if($id=='' || $id==null){
 			$data = $this->input->post();
 			unset($data['id']);
+			$kodebox = $this->m_app->select_global('tb_box', array('id'=>$data['id_box']))->row()->kode;
 			$insert = $this->m_app->insert_global('tb_berkas',$data);
 			if($insert>0){
-				submit_log('Menambah Data Berkas');
+				submit_log('Menambah Data Berkas di Box '.$kodebox);
 				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
 			}else{
 				echo json_encode(array('code'=>500,'message'=>'data save failed'));
 			}
 		}else{
 			$data = $this->input->post();
+			$kodebox = $this->m_app->select_global('tb_box', array('id'=>$data['id_box']))->row()->kode;
 			unset($data['id']);
 			$update = $this->m_app->update_global('tb_berkas',array('id'=>$id),$data);
 			if($update>=0){
-				submit_log('Mengupdate Data Berkas');
+				submit_log('Mengupdate Data Berkas di Box '.$kodebox);
 				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
 			}else{
 				echo json_encode(array('code'=>500,'message'=>'data save failed'));
@@ -101,9 +103,11 @@ class Document extends CI_Controller {
 	public function delete_doc(){
 		$id = $this->input->post('id');
 		$data = array('deletedate'=>date('Y-m-d'));
+		$id_box = $this->m_app->select_global('tb_berkas',array('id'=>$id))->row()->id_box;
+		$kodebox = $this->m_app->select_global('tb_box',array('id'=>$id_box))->row()->kode;
 		$delete = $this->m_app->update_global('tb_berkas',array('id'=>$id),$data);
 		if($delete>0){
-			submit_log('Menghapus Data Berkas');
+			submit_log('Menghapus Data Berkas di Box '.$kodebox);
 			echo json_encode(array('code'=>200,'message'=>'data deleted successfully'));
 		}else{
 			echo json_encode(array('code'=>500,'message'=>'data delete failed'));

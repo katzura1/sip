@@ -40,11 +40,11 @@
                 <p class="login-box-msg">Sign in to start your session</p>
                 <form action="<?php echo site_url('auth/login') ?>" method="post">
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" placeholder="Username" name="user"/>
+                        <input type="text" class="form-control" placeholder="Username" name="user" maxlength="30" />
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" placeholder="Password" name="password"/>
+                        <input type="password" class="form-control" placeholder="Password" name="password" maxlength="30" />
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="row">

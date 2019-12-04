@@ -37,18 +37,18 @@ $this->load->view('template/sidebar');
     <form id="form_search">
     <div class="row">
         <div class="col-lg-3">
-            <input type="text" name="search_box" class="form-control" placeholder="Kode / Nama Box..." required>
+            <input type="text" name="search_box" class="form-control" placeholder="Kode / Nama Box..." required autofocus>
         </div>
         <div class="col-lg-1">
             <button type="submit" class="btn btn-danger">
                 <i class="fa fa-search"> Search</i>
             </button>
         </div>
-        <div class="col-lg-1">
+<!--         <div class="col-lg-1">
             <button type="button" class="btn btn-danger" id="btn_scan">
                 <i class="fa fa-barcode"> Scan</i>
             </button>
-        </div>
+        </div> -->
     </div>
     </form>
 </section>
@@ -77,6 +77,8 @@ $this->load->view('template/js');
 ?>
 <script type="text/javascript">
 $(document).ready(function(){
+    $('input[name=search_box').focus();
+
     $('#form_search').on('submit', function(e){
         e.preventDefault();
 
@@ -86,7 +88,10 @@ $(document).ready(function(){
             data : {param : search},
             type : 'POST',
             dataType : 'JSON',
-            beforeSend : function(){},
+            beforeSend : function(){
+                $('input[name=search_box').focus();
+                $('input[name=search_box').val('');
+            },
             success : function(result){
                 if(result.code=='200'){
                     var url = "<?=site_url('document/view/')?>"+result.id_box;
@@ -95,14 +100,20 @@ $(document).ready(function(){
                     swal.fire({
                         title : 'Box not Found!',
                         icon : 'warning',
+                        showConfirmButton: false,
+                        timer: 1500
                     })
+                    $('input[name=search_box').focus();
+                    $('input[name=search_box').val('');
                 }
             },
             error : function(xhr, ajaxOptions, thrownError){
                 swal.fire({
                     title : xhr.status,
                     icon : 'danger',
-                    message : thrownError
+                    message : thrownError,
+                    showConfirmButton: false,
+                    timer: 1500
                 })
             }
         })
@@ -142,9 +153,11 @@ $(document).ready(function(){
               scanner.start(cameras[0]);
             } else {
               console.error('No cameras found.');
+              alert('Camera Not Found');
             }
         }).catch(function (e) {
             console.error(e);
+            alert(e);
         });
         $('#modal_scan').modal();
     })

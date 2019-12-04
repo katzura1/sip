@@ -86,23 +86,23 @@ $this->load->view('template/sidebar');
         </div>
         <div class="form-group">
           <label>Nama</label>
-          <input type="text" class="form-control" name="nama" id="nama" placeholder="Enter ..." required/>
+          <input type="text" class="form-control" name="nama" id="nama" placeholder="Enter ..." required maxlength="30" />
         </div>
         <div class="form-group">
           <label>Alamat</label>
-          <input type="text" class="form-control" name="alamat" id="alamat" placeholder="Enter ..." required/>
+          <input type="text" class="form-control" name="alamat" id="alamat" placeholder="Enter ..." required maxlength="180" />
         </div>
         <div class="form-group">
           <label>Blok</label>
-          <input type="text" class="form-control" name="blok" id="blok" placeholder="Enter ..." required/>
+          <input type="text" class="form-control" name="blok" id="blok" placeholder="Enter ..." required maxlength="8" />
         </div>
         <div class="form-group">
           <label>Rak</label>
-          <input type="text" class="form-control" name="rak" id="rak" placeholder="Enter ..." required/>
+          <input type="text" class="form-control" name="rak" id="rak" placeholder="Enter ..." required maxlength="8" />
         </div>
         <div class="form-group">
           <label>Lantai</label>
-          <input type="text" class="form-control" name="lantai" id="lantai" placeholder="Enter ..." required/>
+          <input type="text" class="form-control" name="lantai" id="lantai" placeholder="Enter ..." required maxlength="8" />
         </div>
         <div class="form-group">
            <button type="submit" class="btn btn-primary">Save changes</button>
@@ -280,12 +280,16 @@ $(document).ready(function(){
                         icon: 'success',
                         title: 'Great',
                         text: 'Data saved successfully',
+                        showConfirmButton: false,
+                        timer: 1500
                      })
                   }else{
                     Swal.fire({
                         icon: 'warning',
                         title: 'Error',
                         text: result.message,
+                        showConfirmButton: false,
+                        timer: 1500
                      })
                   }
                   tb.ajax.reload();
@@ -295,6 +299,8 @@ $(document).ready(function(){
                     icon: 'warning',
                     title: 'Error',
                     text: xhr.status + ' ' +thrownError,
+                    showConfirmButton: false,
+                    timer: 1500
                  })
               }
           })
@@ -327,6 +333,8 @@ $(document).ready(function(){
             icon: 'warning',
             title: 'Error',
             text: xhr.status + ' ' +thrownError,
+            showConfirmButton: false,
+            timer: 1500
           })  
         }
     })
@@ -353,6 +361,8 @@ $(document).ready(function(){
             icon: 'warning',
             title: 'Error',
             text: xhr.status + ' ' +thrownError,
+            showConfirmButton: false,
+            timer: 1500
           })  
         }
     })
@@ -411,12 +421,16 @@ $(document).ready(function(){
                     icon: 'success',
                     title: 'Great',
                     text: 'Data saved successfully',
+                    showConfirmButton: false,
+                    timer: 1500
                  })
               }else{
                 Swal.fire({
                     icon: 'warning',
                     title: 'Error',
                     text: result.message,
+                    showConfirmButton: false,
+                    timer: 1500
                  })
               }
               tb.ajax.reload();
@@ -427,6 +441,8 @@ $(document).ready(function(){
                 icon: 'warning',
                 title: 'Error',
                 text: xhr.status + ' ' +thrownError,
+                showConfirmButton: false,
+                timer: 1500
              })
             }
           })
