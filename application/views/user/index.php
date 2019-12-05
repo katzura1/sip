@@ -184,12 +184,16 @@ $(document).ready(function(){
                           icon: 'success',
                           title: 'Great',
                           text: 'Data saved successfully',
+                          showConfirmButton: false,
+                          timer: 1500
                        })
                     }else{
                       Swal.fire({
                           icon: 'warning',
                           title: 'Error',
                           text: result.message,
+                          showConfirmButton: false,
+                          timer: 1500
                        })
                     }
                     tb.ajax.reload();
@@ -199,6 +203,8 @@ $(document).ready(function(){
                       icon: 'warning',
                       title: 'Error',
                       text: xhr.status + ' ' +thrownError,
+                      showConfirmButton: false,
+                      timer: 1500
                    })
                 }
             })
@@ -230,6 +236,8 @@ $(document).ready(function(){
                 icon: 'warning',
                 title: 'Error',
                 text: xhr.status + ' ' +thrownError,
+                showConfirmButton: false,
+                timer: 1500
               })  
             }
         })
@@ -262,12 +270,16 @@ $(document).ready(function(){
                       icon: 'success',
                       title: 'Great',
                       text: 'Data saved successfully',
+                      showConfirmButton: false,
+                      timer: 1500
                    })
                 }else{
                   Swal.fire({
                       icon: 'warning',
                       title: 'Error',
                       text: result.message,
+                      showConfirmButton: false,
+                      timer: 1500
                    })
                 }
                 tb.ajax.reload();
@@ -278,6 +290,8 @@ $(document).ready(function(){
                   icon: 'warning',
                   title: 'Error',
                   text: xhr.status + ' ' +thrownError,
+                  showConfirmButton: false,
+                  timer: 1500
                })
               }
             })
