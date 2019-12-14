@@ -2,9 +2,9 @@
 
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-        <b>Version</b> 2.0
+        <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2020 Sistem Informasi Pemberkasan - KPP Pratama Palembang Sebrang ULU</strong>
 </footer>
 </div><!-- ./wrapper -->
 
@@ -54,5 +54,5 @@
 <!--SELECT2-->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
 
-<!--Instascan-->
-<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+<!--Dropzone-->
+<script src="<?=base_url('assets/dropzone/dropzone.js')?>"></script>

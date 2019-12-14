@@ -8,6 +8,7 @@ class Document extends CI_Controller {
 		$this->load->model('m_box');
 		$this->load->model('m_document');
 		$this->load->model('m_jenis_berkas');
+		sudah_login();
 	}
 
 	public function index(){
@@ -73,15 +74,15 @@ class Document extends CI_Controller {
 
 	public function submitForm(){
 		$id = $this->input->post('id');
-
 		if($id=='' || $id==null){
 			$data = $this->input->post();
 			unset($data['id']);
 			$kodebox = $this->m_app->select_global('tb_box', array('id'=>$data['id_box']))->row()->kode;
 			$insert = $this->m_app->insert_global('tb_berkas',$data);
+			$hasil = $this->upload_data($insert);
 			if($insert>0){
 				submit_log('Menambah Data Berkas di Box '.$kodebox);
-				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
+				echo json_encode(array('code'=>200,'message'=>'<div class="alert alert-success" role="alert"> Data Saved successfully</div><br>'.$hasil['result'],'c_err'=>$hasil['c_err']));
 			}else{
 				echo json_encode(array('code'=>500,'message'=>'data save failed'));
 			}
@@ -89,10 +90,11 @@ class Document extends CI_Controller {
 			$data = $this->input->post();
 			$kodebox = $this->m_app->select_global('tb_box', array('id'=>$data['id_box']))->row()->kode;
 			unset($data['id']);
+			unset($data['lampiran']);
 			$update = $this->m_app->update_global('tb_berkas',array('id'=>$id),$data);
 			if($update>=0){
 				submit_log('Meng-update Data Berkas di Box '.$kodebox);
-				echo json_encode(array('code'=>200,'message'=>'data save successfully'));
+				echo json_encode(array('code'=>200,'message'=>'data save successfully','c_err'=>0));
 			}else{
 				echo json_encode(array('code'=>500,'message'=>'data save failed'));
 			}
@@ -118,6 +120,80 @@ class Document extends CI_Controller {
 		$id = $this->input->get('id');
 		$data = $this->m_document->get_document($id)->row_array();
 		echo json_encode($data);
+	}
+
+	public function upload($id){
+		$data = $this->m_document->get_document($id)->row_array();
+		$data['title']	= 'Upload Dokumen';
+		$data['lampiran'] = $this->m_app->select_global('tb_berkas_lampiran', array('id_berkas'=>$id));
+		$data['level']	= $this->session->userdata('sip_level');
+		$this->load->view('doc/master_lampiran',$data);
+	}
+
+	public function upload_data($id_document,$mode='2'){
+		// Set preference
+	    $config['upload_path'] = 'files/document/'; 
+	    $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+	    $config['max_size'] = '1024'; // max_size in kb
+
+	    //Load upload library
+	    $this->load->library('upload',$config); 
+
+	    $result = '';
+	    $c_err = 0;
+	   	$files = $_FILES;
+	   	for ($i=0; $i < sizeof($_FILES['lampiran']['name']); $i++) { 
+	   		$_FILES ['multipleUpload'] ['name'] = $files ['lampiran'] ['name'] [$i];
+            $_FILES ['multipleUpload'] ['type'] = $files ['lampiran'] ['type'] [$i];
+            $_FILES ['multipleUpload'] ['tmp_name'] = $files ['lampiran'] ['tmp_name'] [$i];
+            $_FILES ['multipleUpload'] ['error'] = $files ['lampiran'] ['error'] [$i];
+            $_FILES ['multipleUpload'] ['size'] = $files ['lampiran'] ['size'] [$i];
+
+            $this->upload->initialize($config);
+            if(!($this->upload->do_upload('multipleUpload')) || $files ['lampiran'] ['error'] [$i] !=0)
+            {
+                $error =  $this->upload->display_errors();
+                $result .= "<div class='alert alert-danger' role='alert'> File ke - $i Gagal di upload : $error</div>";
+                $c_err ++ ;
+            }
+            else
+            {
+                //insert ke database
+                $data = $this->upload->data();
+                $insert = $this->m_app->insert_global('tb_berkas_lampiran', array('id_berkas'=>$id_document, 'files'=>$data['file_name']));
+                if($insert==0){
+                	$file = $config['upload_path'] . $data['file_name'];
+		          	if (file_exists($file)) {
+		          		unlink($file);
+		          		$result .= "<div class='alert alert-danger' role='alert'> File ke - $i Gagal input ke database</div>";
+		          	}
+                }
+            }
+	   	}
+	   	if($mode=='1'){
+	   		$datab = $this->m_document->get_document($id_document)->row_array();
+	   		submit_log('Mengupload lampiran di Berkas '.$datab['jenis_berkas'].' Box '.$datab['kode_box']);
+	   		echo json_encode(array('result'=>$result,'c_err'=>$c_err));
+	   	}else{
+	   		return array('result'=>$result,'c_err'=>$c_err);	
+	   	}
+	}
+
+	public function delete_attach(){
+		$id = $this->input->post('id');
+		$data = $this->m_app->select_global('tb_berkas_lampiran',array('id'=>$id))->row_array();
+		$datab = $this->m_document->get_document($id)->row_array();
+		$file = 'files/document/'. $data['files'];
+      	if (file_exists($file)) {
+      		unlink($file);
+      		$update = $this->m_app->delete_global('tb_berkas_lampiran',array('id'=>$id));
+      		if($update>=0){
+				submit_log('Menghapus lampiran '.$data['files'].' di Berkas '.$datab['jenis_berkas'].' Box '.$datab['nama_box']);
+				echo json_encode(array('code'=>200,'message'=>'data save successfully','c_err'=>0));
+			}else{
+				echo json_encode(array('code'=>500,'message'=>'data save failed'));
+			}
+      	}
 	}
 }
 ?>

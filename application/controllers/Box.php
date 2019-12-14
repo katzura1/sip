@@ -7,6 +7,7 @@ class Box extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_box');
 		$this->load->model('m_document');
+		sudah_login();
 	}
 
 	public function index()
@@ -104,9 +105,10 @@ class Box extends CI_Controller {
 
 	public function delete_box(){
 		$data = $this->input->post();
-		$data_box = $this->m_app->select_global('tb_box',$data)->row_array();
+		$data1['id'] = $data['id_box'];
+		$data_box = $this->m_app->select_global('tb_box',$data1)->row_array();
 		$update = array('deletedate'=>date('Y-m-d'));
-		$delete = $this->m_app->update_global('tb_box',$data,$update);
+		$delete = $this->m_app->update_global('tb_box',$data1,$update);
 		if($delete>=0){
 			echo json_encode(
 				array(
@@ -114,7 +116,7 @@ class Box extends CI_Controller {
 					'message' => 'Data Delete Successfully',
 				)
 			);
-			submit_log('Menghapus Data Box '.$data_box['kode']);		
+			submit_log('Menghapus Data Box '.$data_box['kode'].' karena '.$data['reason']);		
 		}else{
 			echo json_encode(
 				array(

@@ -158,9 +158,40 @@ $this->load->view('template/sidebar');
         <div class="row">
           <div class="col-sm-12">
             <img src="" class="text-center img-responsive" id="img_qrcode">
+            <button type="button">
+              <i class="fa fa-print">Print</i>
+            </button>
           </div>
         </div>
         
+      </div>
+
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="modal modal-default fade" id="modal_delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modal_title_delete">Delete Box</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form_delete" type="POST">
+          <input type="hidden" name="id_box" id="id_box">  
+          <div class="form-group">
+            <label>Reason</label>
+            <textarea class="form-control" name="reason" id="reason" required></textarea>
+          </div>
+          <div class="form-group">
+             <button type="submit" class="btn btn-primary">Save changes</button>
+             <button type="button" class="btn btn-danger btn-close" data-dismiss="modal">Close</button>
+          </div>
+        </form>
       </div>
 
     </div>
@@ -265,46 +296,10 @@ $(document).ready(function(){
   })
 
   $(document).on('click', '.btn-delete' ,function(){
-      var id = $(this).data('id');
+    var id = $(this).data('id');
 
-      if(confirm('Are you sure ?')){
-          $.ajax({
-              url : "<?=site_url('box/delete_box')?>",
-              data : {id : id},
-              type : 'POST',
-              dataType : 'JSON',
-              beforeSend : function(){},
-              success : function(result){
-                  if(result.code=='200'){
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Great',
-                        text: 'Data saved successfully',
-                        showConfirmButton: false,
-                        timer: 1500
-                     })
-                  }else{
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Error',
-                        text: result.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                     })
-                  }
-                  tb.ajax.reload();
-              },
-              error : function(xhr, ajaxOptions, thrownError){
-                  Swal.fire({
-                    icon: 'warning',
-                    title: 'Error',
-                    text: xhr.status + ' ' +thrownError,
-                    showConfirmButton: false,
-                    timer: 1500
-                 })
-              }
-          })
-      }
+    $('#id_box').val(id);
+    $('#modal_delete').modal();
   })
   
   $(document).on('click','.btn-edit', function(){
@@ -368,31 +363,6 @@ $(document).ready(function(){
     })
   })
   
-  // $(document).on('click','.btn-view', function(){
-  //     var id = $(this).data('id');
-  //     var row = tb.row($(this).parent().parent()).data();
-  //     $('#modal_title_view').html(row['kode']+'-'+row['nama']);
-  //     $.ajax({
-  //         url : "<?=site_url('box/get_document')?>",
-  //         data : {id : id},
-  //         type : 'GET',
-  //         beforeSend : function(){
-  //             $('#tb_doc tbody').html('');
-  //         },
-  //         success: function(result){
-  //            $('#tb_doc tbody').html(result);
-  //            insert_log('View Box '+row['kode']+'-'+row['nama']);
-  //            $('#modal_view').modal();
-  //         },
-  //         error : function(xhr, ajaxOptions, thrownError){
-  //           Swal.fire({
-  //             icon: 'warning',
-  //             title: 'Error',
-  //             text: xhr.status + ' ' +thrownError,
-  //           })  
-  //         }
-  //     })
-  // })
 
   $('#modal_add').on('hidden.bs.modal', function () {
      $('input[name=id]').val('');
@@ -447,6 +417,56 @@ $(document).ready(function(){
             }
           })
       }
+  })
+
+  $('#form_delete').on('submit', function(e){
+    e.preventDefault();
+
+    if(confirm('Are you sure ?')){
+      var formdata = new FormData($(this)[0]);
+      $.ajax({
+        url : "<?=site_url('box/delete_box')?>",
+        data: formdata,
+        processData: false,
+        contentType: false,
+        async: false,
+        cache: false,
+        enctype: 'multipart/form-data',
+        type : 'POST',
+        dataType : 'JSON',
+        beforeSend : function(){},
+        success : function (result) {
+          if(result.code=='200'){
+            Swal.fire({
+                icon: 'success',
+                title: 'Great',
+                text: 'Data saved successfully',
+                showConfirmButton: false,
+                timer: 1500
+             })
+            $('#modal_delete').modal('hide');
+          }else{
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error',
+                text: result.message,
+                showConfirmButton: false,
+                timer: 1500
+             })
+          }
+          tb.ajax.reload();
+        },
+        error : function(xhr, ajaxOptions, thrownError) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: xhr.status + ' ' +thrownError,
+            showConfirmButton: false,
+            timer: 1500
+         })
+        }
+      })
+    }
   })
 })
 </script>

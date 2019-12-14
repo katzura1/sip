@@ -8,6 +8,7 @@ class Jenis_berkas extends CI_Controller {
 		$this->load->model('m_jenis_berkas');
 		$this->load->model('m_document');
 		$this->load->model('m_jenis_berkas');
+		sudah_login();
 	}
 
 	public function index()
