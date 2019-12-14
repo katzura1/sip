@@ -127,6 +127,7 @@ class Document extends CI_Controller {
 		$data['title']	= 'Upload Dokumen';
 		$data['lampiran'] = $this->m_app->select_global('tb_berkas_lampiran', array('id_berkas'=>$id));
 		$data['level']	= $this->session->userdata('sip_level');
+		submit_log('Melihat Isi Lampiran Berkas '.$data['jenis_berkas'].' di Box '.$data['kode_box']);
 		$this->load->view('doc/master_lampiran',$data);
 	}
 
@@ -182,7 +183,7 @@ class Document extends CI_Controller {
 	public function delete_attach(){
 		$id = $this->input->post('id');
 		$data = $this->m_app->select_global('tb_berkas_lampiran',array('id'=>$id))->row_array();
-		$datab = $this->m_document->get_document($id)->row_array();
+		$datab = $this->m_document->get_document($data['id_berkas'])->row_array();
 		$file = 'files/document/'. $data['files'];
       	if (file_exists($file)) {
       		unlink($file);

@@ -4,7 +4,19 @@ $this->load->view('template/head');
 <!--tambahkan custom css disini-->
 <style type="text/css">
 #btn_add{
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+}
+.img-responsive{
+  margin : 0 auto;
+}
+#modal_qr .modal-content{
+  width: 300px;
+  margin : 0 auto;
+}
+
+#modal_qr .btn{
+  display: block;
+  margin: 0 auto;
 }
 </style>
 <?php
@@ -157,9 +169,11 @@ $this->load->view('template/sidebar');
       <div class="modal-body">
         <div class="row">
           <div class="col-sm-12">
+            <div id="qr">
             <img src="" class="text-center img-responsive" id="img_qrcode">
-            <button type="button">
-              <i class="fa fa-print">Print</i>
+            </div>
+            <button class="btn btn-sm btn-success" id="btn_print" type="button">
+              <i class="fa fa-print"> Print</i>
             </button>
           </div>
         </div>
@@ -223,6 +237,16 @@ $(document).ready(function(){
       }
     })
   }
+
+  $('#btn_print').on('click',function(){
+    var DocumentContainer = document.getElementById('qr');
+    var WindowObject = window.open('', "PrintWindow", "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+    WindowObject.document.writeln(DocumentContainer.innerHTML);
+    WindowObject.document.close();
+    WindowObject.focus();
+    WindowObject.print();
+    WindowObject.close();
+  })
 
   var tb = $('#tb_box').DataTable({
       ajax : {
