@@ -38,6 +38,10 @@
                 margin-bottom: 10px;
             }
 
+            .mt-2{
+                margin-top : 10px;
+            }
+
             .select2-container{
                 display: block;
             }
@@ -50,5 +54,10 @@
             .img-responsive{
                 max-width: 250px;
                 height: auto;
+            }
+
+            table.dataTable tbody td {
+                word-break: break-word;
+                vertical-align: top;
             }
         </style>

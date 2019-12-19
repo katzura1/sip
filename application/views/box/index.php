@@ -51,7 +51,7 @@ $this->load->view('template/sidebar');
                         <i class="fa fa-plus"> Add New Box</i>
                     </button>
                   <?php endif;?>
-                    <table class="table table-sm" id="tb_box">
+                    <table class="table table-sm table-responsive-lg" id="tb_box">
                         <thead>
                             <tr>
                                 <th style="width: 5%">No</th>
@@ -94,7 +94,7 @@ $this->load->view('template/sidebar');
         </div>
         <div class="form-group">
           <label>NPWP</label>
-          <input type="text" class="form-control" name="npwp" id="npwp" placeholder="Enter ..." required minlength="20" maxlength="20" />
+          <input type="text" class="form-control" name="npwp" id="npwp" placeholder="Enter ..." required minlength="20" maxlength="20" autofocus />
         </div>
         <div class="form-group">
           <label>Nama</label>
@@ -164,7 +164,7 @@ $this->load->view('template/sidebar');
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="modal_title_view">Qr Code</h4>
+        <h4 class="modal-title">Qr Code</h4>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -255,6 +255,9 @@ $(document).ready(function(){
           type : 'POST',
       },
       order : [],
+      autoWidth: false,
+      scrollX : true,
+      scrollCollapse : true,
       columns : [
           {
               data : 'id'
@@ -272,7 +275,8 @@ $(document).ready(function(){
               data : 'nama'
           },
           {
-              data : 'alamat'
+              data : 'alamat',
+              width : '150px'
           },
           {
               data : 'blok'
@@ -311,6 +315,7 @@ $(document).ready(function(){
       $('.modal-title').html('Add Box');
       $('#kode').removeAttr('required');
       $('#kode').prop('readonly',true);
+      $('#npwp').focus();
       $('#kode').attr('placeholder','Kode akan auto generate setelah data disimpan');
       $('#modal_add').modal();
   })

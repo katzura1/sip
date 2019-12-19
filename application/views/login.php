@@ -37,10 +37,9 @@
                 Sistem Informasi Pemberkasan</a>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Sign in to start your session</p>
                 <form action="<?php echo site_url('auth/login') ?>" method="post">
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" placeholder="Username" name="user" maxlength="30" />
+                        <input type="text" class="form-control" placeholder="Username" name="user" maxlength="30" autofocus/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">

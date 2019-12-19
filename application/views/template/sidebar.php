@@ -25,9 +25,11 @@
             <li class="treeview">
                 <a href="<?=site_url('box')?>"><i class="fa fa-book"></i> Box</a>
             </li>
+            <?php if($level>1): ?>
             <li class="treeview">
                 <a href="<?=site_url('jenis_berkas')?>"><i class="fa fa-file"></i> Jenis Berkas</a>
             </li>
+            <?php endif; ?>
             <?php if($level=='3'): ?>
             <li class="treeview">
                 <a href="<?=site_url('user')?>"><i class="fa fa-user"></i> User</a>

@@ -2,7 +2,7 @@
 
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-        <b>Version</b> 1.0
+        <b>Version</b> 1.4
     </div>
     <strong>Copyright &copy; 2020 Sistem Informasi Pemberkasan - KPP Pratama Palembang Sebrang ULU</strong>
 </footer>

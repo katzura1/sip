@@ -13,6 +13,7 @@ class Log extends CI_Controller {
 		$data = array(
 			'title' => 'Log',
 			'level'	=> $this->session->userdata('sip_level'),
+			'dd_tahun' => $this->m_log->dd_year_log(),
 		);
 		$this->load->view('log/index',$data);
 	}
@@ -34,6 +35,34 @@ class Log extends CI_Controller {
         $final['recordsFiltered']=sizeof($data);
         $final['data']=$data;
         echo json_encode($final);
+	}
+
+	public function delete_log(){
+		$tahun = $this->input->post('tahun');
+		if($tahun!='' || $tahun!=null){
+			$delete = $this->m_app->delete_global('tb_log', array('YEAR(tanggal)'=>$tahun));
+			if($delete>=0){
+				echo json_encode(
+					array(
+						'code' => '200',
+						'message' => 'Data Delete Successfully',
+					)
+				);
+				submit_log('Menghapus Log tahun '.$tahun);
+			}else{
+				echo json_encode(
+					array(
+						'code' => '500',
+						'message' => 'Data Delete Failed',
+					)
+				);
+			}
+		}else{
+			echo json_encode(array(
+				'code' => 404,
+				'message' => 'Data Not Valid',
+			));
+		}
 	}
 }
 ?>

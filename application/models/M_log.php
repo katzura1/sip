@@ -14,5 +14,18 @@ class M_log extends CI_Model
 		$this->db->order_by('tl.tanggal','desc');
 		return $this->db->get();
 	}
+
+	public function dd_year_log(){
+		$this->db->select('YEAR(tanggal) tahun');
+		$this->db->from('tb_log tl');
+		$this->db->where('YEAR(tanggal)',date('Y'));
+		$this->db->group_by('YEAR(tanggal)');
+		$data = $this->db->get();
+		$dd[''] = 'Select';
+		foreach($data->result() as $row){
+			$dd[$row->tahun] = $row->tahun;
+		}
+		return $dd;
+	}
 }
 ?>

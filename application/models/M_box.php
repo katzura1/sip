@@ -23,16 +23,22 @@ class M_box extends CI_Model
 	}
 
 	public function get_last_kode(){
+		//format kode box 
+		//1912190001
+		//yymmddurut
+		//0123456789
+		$today = date('ymd');
 		$this->db->select('kode');
 		$this->db->from('tb_box');
+		$this->db->like('kode',$today,'after');
 		$this->db->order_by('kode','desc');
 		$data = $this->db->get();
 		if($data->num_rows()==0){
-			return 'B001';
+			return $today.'0001';
 		}else{
 			$kode = $data->row()->kode;
-			$number = substr($kode, 1)+1;
-			return 'B'.sprintf('%03d', $number);
+			$number = substr($kode, 6)+1;
+			return $today.sprintf('%04d', $number);
 		}
 	}
 
