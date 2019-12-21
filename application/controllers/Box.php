@@ -110,6 +110,17 @@ class Box extends CI_Controller {
 		$update = array('deletedate'=>date('Y-m-d'));
 		$delete = $this->m_app->update_global('tb_box',$data1,$update);
 		if($delete>=0){
+			$d_berkas = $this->m_app->select_global('tb_berkas',array('id_box' => $data['id_box']));
+			foreach($d_berkas->result() as $row){
+				$id_berkas = $row->id;
+				$d_lampiran = $this->m_app->select_global('tb_berkas_lampiran');
+				foreach ($d_lampiran->result() as $row) {
+					$this->delete_attach($row->id);
+				}
+				
+				$this->m_app->delete_global('tb_berkas',array('id'=>$id_berkas));
+				submit_log('Menghapus Data Berkas di Box '.$data_box['kode']);
+			}
 			echo json_encode(
 				array(
 					'code' => '200',
@@ -125,6 +136,22 @@ class Box extends CI_Controller {
 				)
 			);
 		}
+	}
+
+	function delete_attach($id){
+		$data = $this->m_app->select_global('tb_berkas_lampiran',array('id'=>$id))->row_array();
+		$datab = $this->m_document->get_document($data['id_berkas'])->row_array();
+		$file = 'files/document/'. $data['files'];
+      	if (file_exists($file)) {
+      		unlink($file);
+      		$update = $this->m_app->delete_global('tb_berkas_lampiran',array('id'=>$id));
+      		if($update>=0){
+				submit_log('Menghapus lampiran '.$data['files'].' di Berkas '.$datab['jenis_berkas'].' Box '.$datab['nama_box']);
+				//echo json_encode(array('code'=>200,'message'=>'data save successfully','c_err'=>0));
+			}else{
+				//echo json_encode(array('code'=>500,'message'=>'data save failed'));
+			}
+      	}
 	}
 
 	public function get_info(){

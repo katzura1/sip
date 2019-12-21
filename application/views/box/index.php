@@ -195,6 +195,7 @@ $this->load->view('template/sidebar');
         <h4 class="modal-title" id="modal_title_delete">Delete Box</h4>
       </div>
       <div class="modal-body">
+        <p class="text-left"> Harap perhatikan, bahwa dengan menghapus box data-data yang ada di dalam box akan ikut terhapus dan tidak dapat dikembalikan lagi.</p>
         <form id="form_delete" type="POST">
           <input type="hidden" name="id_box" id="id_box">  
           <div class="form-group">
