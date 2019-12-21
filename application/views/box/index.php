@@ -305,6 +305,8 @@ $(document).ready(function(){
       ],
   });
 
+  $('.dataTables_filter input').attr('maxlength', 30);
+
   tb.on( 'order.dt search.dt', function () {
       tb.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
           cell.innerHTML = i+1;

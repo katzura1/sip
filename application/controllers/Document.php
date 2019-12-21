@@ -154,7 +154,7 @@ class Document extends CI_Controller {
             if(!($this->upload->do_upload('multipleUpload')) || $files ['lampiran'] ['error'] [$i] !=0)
             {
                 $error =  $this->upload->display_errors();
-                $result .= "<div class='alert alert-danger' role='alert'> File ke - $i Gagal di upload : $error</div>";
+                $result .= "<div class='alert alert-danger' role='alert'> File ke - ".($i+1)." Gagal di upload : $error</div>";
                 $c_err ++ ;
             }
             else

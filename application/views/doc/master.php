@@ -19,7 +19,7 @@ $this->load->view('template/sidebar');
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Box</li>
+        <li class="active">Document</li>
     </ol>
 </section>
 
@@ -318,31 +318,8 @@ $(document).ready(function(){
   })
   
   $(document).on('click','.btn-view', function(){
-      var id = $(this).data('id');
-      var row = tb.row($(this).parent().parent()).data();
-      $('#modal_title_view').html(row['kode']+'-'+row['nama']);
-      $.ajax({
-          url : "<?=site_url('document/get_document')?>",
-          data : {id : id},
-          type : 'GET',
-          beforeSend : function(){
-              $('#tb_doc tbody').html('');
-          },
-          success: function(result){
-             $('#tb_doc tbody').html(result);
-             insert_log('View Box '+row['kode']+'-'+row['nama']);
-             $('#modal_view').modal();
-          },
-          error : function(xhr, ajaxOptions, thrownError){
-            Swal.fire({
-              icon: 'warning',
-              title: 'Error',
-              text: xhr.status + ' ' +thrownError,
-              showConfirmButton: false,
-              timer: 1500
-            })  
-          }
-      })
+    var id = $(this).data('id');
+    window.location.href="<?=site_url('document/upload/')?>"+id
   })
 
   $('#modal_add').on('hidden.bs.modal', function () {
@@ -408,6 +385,9 @@ $(document).ready(function(){
       type : 'POST'
     },
     order : [[1,'asc']],
+    autoWidth: false,
+    scrollX : true,
+    scrollCollapse : true,
     columns : [
       {
         data : 'id'
@@ -428,7 +408,8 @@ $(document).ready(function(){
         data : 'status_pembetulan'
       },
       {
-        data : 'keterangan'
+        data : 'keterangan',
+        width : '150px'
       },
       {
         data : 'status_pinjam',
@@ -460,6 +441,8 @@ $(document).ready(function(){
         cell.innerHTML = i+1;
     } );
   } ).draw();
+
+  $('.dataTables_filter input').attr('maxlength', 30);
 })
 </script>
 <?php

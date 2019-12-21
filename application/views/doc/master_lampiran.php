@@ -46,7 +46,7 @@ $this->load->view('template/sidebar');
                         <td style="width: 10%">Jenis Berkas </td><td style="width: 3%">:</td><td> <?=$jenis_berkas?></td>
                       </tr>
                       <tr>
-                        <td style="width: 10%">Keterangan </td><td style="width: 3%">:</td><td> <p id="npwp"><?=$keterangan?></p></td>
+                        <td style="width: 10%">Keterangan </td><td style="width: 3%">:</td><td><?=$keterangan?></td>
                       </tr>
                       <tr>
                         <td style="width: 10%">Tahun Pajak </td><td style="width: 3%">:</td><td> <?=$tahun_pajak?></td>
@@ -75,12 +75,18 @@ $this->load->view('template/sidebar');
                       <td></td>
                       <td><?=$row->files?></td>
                       <td>
-                        <button class="btn btn-primary btn-sm btn-download mr-2 mb-3">
+                        <a class="btn btn-primary btn-sm btn-download mr-2 mb-3" href="<?=base_url('files/document/'.$row->files)?>" target="_blank" download>
                           <i class="fa fa-download"></i>
-                        </button>
+                        </a>
+                        <?php 
+                        if($level>1):
+                        ?>
                         <button class="btn btn-danger btn-sm btn-delete mr-2 mb-3" data-id="<?=$row->id?>">
                           <i class="fa fa-trash"></i>
                         </button>
+                        <?php 
+                        endif;
+                        ?>
                       </td>
                     </tr>
                   <?php
@@ -144,10 +150,6 @@ $(document).ready(function(){
     }
   })
 
-  $('#npwp').text(function(i, text) {
-    return text.replace(/(\d{2})(\d{3})(\d{3})(\d{1})(\d{3})(\d{3})/, '$1.$2.$3.$4-$5.$6');
-  });
-
   $('#btn_add').on('click', function(){
       $('.modal-title').html('Add Box');
       $('#kode').removeAttr('required');
@@ -197,7 +199,7 @@ $(document).ready(function(){
                   timer: 1500
                })
             }
-            location.reload();;
+            location.reload();
         },
         error : function(xhr, ajaxOptions, thrownError){
             Swal.fire({
@@ -234,22 +236,16 @@ $(document).ready(function(){
           beforeSend : function(){},
           success : function (result) {
             if(result.c_err=='0'){
-              $('#modal_alert .modal-body').html(result.message);
+              $('#modal_alert .modal-body').html(result.result);
               $('#modal_alert').modal();
-              if(result.c_err==0){
-                setTimeout(function(){ $('#modal_alert').modal('hide'); }, 1500);
-              }
+              setTimeout(function(){ $('#modal_alert').modal('hide'); location.reload(); }, 1500);
             }else{
-              Swal.fire({
-                  icon: 'warning',
-                  title: 'Error',
-                  text: result.message,
-                  showConfirmButton: false,
-                  timer: 1500
-               })
+              $('#modal_alert .modal-body').html(result.result);
+              $('#modal_alert').modal();
+              setTimeout(function(){ $('#modal_alert').modal('hide'); location.reload(); }, 2000);
             }
-            location.reload();;
-            $('#modal_add').modal('hide');
+            //location.reload();
+            //$('#modal_add').modal('hide');
           },
           error : function(xhr, ajaxOptions, thrownError) {
             Swal.fire({
@@ -275,6 +271,8 @@ $(document).ready(function(){
         cell.innerHTML = i+1;
     } );
   } ).draw();
+
+  $('.dataTables_filter input').attr('maxlength', 30);
 })
 </script>
 <?php

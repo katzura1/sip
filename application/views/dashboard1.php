@@ -37,7 +37,7 @@ $this->load->view('template/sidebar');
     <form id="form_search">
     <div class="row">
         <div class="col-lg-3">
-            <input type="text" name="search_box" class="form-control" placeholder="Kode / NPWP / Nama..." required autofocus>
+            <input type="text" name="search_box" class="form-control" placeholder="Kode Box..." required autofocus maxlength="30">
         </div>
         <div class="col-lg-1">
             <button type="submit" class="btn btn-danger">
