@@ -135,7 +135,7 @@ class Document extends CI_Controller {
 		// Set preference
 	    $config['upload_path'] = 'files/document/'; 
 	    $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
-	    $config['max_size'] = '1024'; // max_size in kb
+	    $config['max_size'] = '200000'; // max_size in kb
 
 	    //Load upload library
 	    $this->load->library('upload',$config); 
@@ -150,7 +150,10 @@ class Document extends CI_Controller {
             $_FILES ['multipleUpload'] ['error'] = $files ['lampiran'] ['error'] [$i];
             $_FILES ['multipleUpload'] ['size'] = $files ['lampiran'] ['size'] [$i];
 
-            $this->upload->initialize($config);
+			$this->upload->initialize($config);
+			if($files['lampiran']['error'][$i]==4){
+				continue;
+			}
             if(!($this->upload->do_upload('multipleUpload')) || $files ['lampiran'] ['error'] [$i] !=0)
             {
                 $error =  $this->upload->display_errors();

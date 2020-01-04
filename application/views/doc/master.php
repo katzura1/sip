@@ -117,7 +117,8 @@ $this->load->view('template/sidebar');
         </div>
         <div class="form-group">
           <label>Masa Pajak</label>
-          <?=form_dropdown('masa_pajak',$dd_bulan,'','class="form-control" name="masa_pajak" id="masa_pajak"')?>
+          <input type="number" class="form-control" name="masa_pajak" id="masa_pajak" min=1 max=12 required maxlength="2">
+          <!-- <?=form_dropdown('masa_pajak',$dd_bulan,'','class="form-control" name="masa_pajak" id="masa_pajak"')?> -->
         </div>
         <div class="form-group">
           <label>Tahun Pajak</label>
@@ -140,7 +141,7 @@ $this->load->view('template/sidebar');
         </div>
         <div class="form-group" id="fg_lampiran">
           <label>Lampiran</label>
-          <input type="file" class="form-control" name="lampiran[]" id="lampiran" accept="application/pdf,image/*" required multiple>
+          <input type="file" class="form-control" name="lampiran[]" id="lampiran" accept="application/pdf,image/*" multiple>
         </div>
         <div class="form-group">
            <button type="submit" class="btn btn-primary">Save changes</button>
@@ -230,7 +231,7 @@ $(document).ready(function(){
     $('.select2').select2();
     $('#fg_lampiran').css('display','block');
     $('#lampiran').attr('type','file');
-    $('#lampiran').attr('required',true);
+    //$('#lampiran').attr('required',true);
     $('#modal_add .modal-title').html('Add Document');
     $('#modal_add').modal();
   })
@@ -443,6 +444,8 @@ $(document).ready(function(){
   } ).draw();
 
   $('.dataTables_filter input').attr('maxlength', 30);
+
+  $('#lampiran').removeAttr('required');
 })
 </script>
 <?php

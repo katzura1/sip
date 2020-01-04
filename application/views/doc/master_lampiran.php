@@ -75,12 +75,12 @@ $this->load->view('template/sidebar');
                       <td></td>
                       <td><?=$row->files?></td>
                       <td>
-                        <a class="btn btn-primary btn-sm btn-download mr-2 mb-3" href="<?=base_url('files/document/'.$row->files)?>" target="_blank" download>
-                          <i class="fa fa-download"></i>
-                        </a>
                         <?php 
                         if($level>1):
                         ?>
+                        <a class="btn btn-primary btn-sm btn-download mr-2 mb-3" href="<?=base_url('files/document/'.$row->files)?>" target="_blank" download>
+                          <i class="fa fa-download"></i>
+                        </a>
                         <button class="btn btn-danger btn-sm btn-delete mr-2 mb-3" data-id="<?=$row->id?>">
                           <i class="fa fa-trash"></i>
                         </button>
@@ -98,6 +98,9 @@ $this->load->view('template/sidebar');
               </div>
             </div>
         </div><!-- /.box-body -->
+        <?php
+          if($level>1):
+        ?>
         <div class="box-footer">
           <div class="row">
             <form id="form_update" method="POST">
@@ -112,6 +115,9 @@ $this->load->view('template/sidebar');
             </form>
           </div>
         </div><!-- /.box-footer-->
+        <?php
+          endif;
+        ?>
     </div><!-- /.box -->
 
 </section><!-- /.content -->
