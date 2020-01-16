@@ -117,7 +117,7 @@ $this->load->view('template/sidebar');
         </div>
         <div class="form-group">
           <label>Masa Pajak</label>
-          <input type="number" class="form-control" name="masa_pajak" id="masa_pajak" min=1 max=12 required maxlength="2">
+          <input type="text" class="form-control" name="masa_pajak" id="masa_pajak" required maxlength="25">
           <!-- <?=form_dropdown('masa_pajak',$dd_bulan,'','class="form-control" name="masa_pajak" id="masa_pajak"')?> -->
         </div>
         <div class="form-group">
@@ -399,7 +399,8 @@ $(document).ready(function(){
       {
         data : 'masa_pajak',
         render : function(data, type, row){
-          return bulan[data-1];
+          //return bulan[data-1];
+          return data;
         }
       },
       {
